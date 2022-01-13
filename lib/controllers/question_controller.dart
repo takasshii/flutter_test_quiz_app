@@ -23,7 +23,7 @@ class ProgressControllerState extends State<ProgressController>
         begin: 1.0,
         end: 0.0,
       ),
-    );
+    )..addListener(() => setState(() {}));
     _animationController.forward();
   }
 
@@ -40,5 +40,11 @@ class ProgressControllerState extends State<ProgressController>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void start() {
+    _animationController
+      ..reset()
+      ..forward();
   }
 }
