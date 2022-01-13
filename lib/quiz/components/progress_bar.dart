@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/controllers/question_controller.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 import '../../constants.dart';
@@ -20,9 +21,8 @@ class ProgressBar extends StatelessWidget {
         children: [
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) =>
-                Container(
-              width: size.width,
-              decoration: BoxDecoration(
+                ProgressController(
+              child: BoxDecoration(
                 gradient: kPrimaryGradient,
                 borderRadius: BorderRadius.circular(50),
               ),
