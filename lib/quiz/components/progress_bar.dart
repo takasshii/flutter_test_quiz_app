@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/controllers/question_controller.dart';
+import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 
 import '../../constants.dart';
 
@@ -10,30 +10,22 @@ class ProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final _key = GlobalObjectKey<ProgressControllerState>(context);
     Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Container(
-          width: size.width,
-          height: 35,
-          decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFF3F4768), width: 3),
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: ProgressController(key: _key),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: kDefaultPadding / 2),
-          child: IconButton(
-            icon: Icon(
-              Icons.refresh,
-              size: 40,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: size.width,
+            height: 35,
+            decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFF3F4768), width: 3),
+              borderRadius: BorderRadius.circular(50),
             ),
-            onPressed: () {
-              _key.currentState?.start();
-            },
+            child: ProgressController(key: _key),
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }
