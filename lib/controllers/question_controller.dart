@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:websafe_svg/websafe_svg.dart';
+
+import '../constants.dart';
 
 class ProgressController extends StatefulWidget {
-  final Decoration child;
-  const ProgressController({Key? key, required this.child}) : super(key: key);
+  const ProgressController({Key? key}) : super(key: key);
 
   @override
   ProgressControllerState createState() => ProgressControllerState();
@@ -30,9 +32,32 @@ class ProgressControllerState extends State<ProgressController>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width * _animationController.value,
-      decoration: widget.child,
+    return Stack(
+      children: [
+        LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) =>
+              Container(
+            width: size.width * _animationController.value,
+            decoration: BoxDecoration(
+              gradient: kPrimaryGradient,
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${(_animationController.value * 60).round()} sec"),
+                WebsafeSvg.asset("assets/icons/clock.svg")
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 
