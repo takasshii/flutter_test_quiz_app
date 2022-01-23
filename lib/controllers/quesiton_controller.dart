@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
 
 class QuestionController extends ChangeNotifier {
@@ -22,12 +21,15 @@ class QuestionController extends ChangeNotifier {
 
   bool isAnswered = false;
   int numberCorrectAns = 0;
+  late int correctAns;
+  late int selectedAns;
 
-  void checkAns(Question question, int selectedIndex,
-      ProgressControllerState _animationController) {
+  void checkAns(Question question, int selectedIndex) {
     isAnswered = true;
-    _animationController.stop();
-    if (selectedIndex == question.answer) numberCorrectAns++;
+    correctAns = question.answer;
+    selectedAns = selectedIndex;
+    if (correctAns == selectedIndex) numberCorrectAns++;
+    notifyListeners();
   }
 
   void nextQuestion() {

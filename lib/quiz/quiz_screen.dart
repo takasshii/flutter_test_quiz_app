@@ -78,8 +78,8 @@ class QuizScreen extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     }
                     return PageView.builder(
-                        itemBuilder: (context, index) =>
-                            QuestionCard(question: questions[index]));
+                        itemBuilder: (context, index) => QuestionCard(
+                            index: index, question: questions[index]));
                   })),
                 ],
               ),
