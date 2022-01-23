@@ -15,7 +15,6 @@ class ProgressControllerState extends State<ProgressController>
   late AnimationController _animationController;
   late Animation _animation;
 
-  @override
   void initState() {
     super.initState();
     _animationController =
@@ -71,5 +70,9 @@ class ProgressControllerState extends State<ProgressController>
     _animationController
       ..reset()
       ..forward();
+  }
+
+  void stop() {
+    _animationController.stop();
   }
 }

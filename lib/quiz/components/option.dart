@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class Option extends StatelessWidget {
-  const Option({Key? key}) : super(key: key);
+  const Option({Key? key, required this.option, required this.number})
+      : super(key: key);
+
+  final String option;
+  final int number;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class Option extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "1, Test",
+            "$number, $option",
             style: TextStyle(color: kGrayColor, fontSize: 16),
           ),
           Container(
