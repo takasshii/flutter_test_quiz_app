@@ -1,6 +1,6 @@
 # flutter_test_takashii
 
-This project is for testing flutter function
+クイズアプリ（制作中）
 
 ## Getting Started
 
