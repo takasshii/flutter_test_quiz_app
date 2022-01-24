@@ -9,19 +9,21 @@ class Option extends StatelessWidget {
       {Key? key,
       required this.option,
       required this.number,
-      required this.press})
+      required this.press,
+      required this.questionNumber})
       : super(key: key);
 
   final String option;
+  final int questionNumber;
   final int number;
   final void Function() press;
 
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<QuestionController>(context);
-
     Color color() {
-      if (number == model.selectedAns) {
+      if (model.questionNumber == questionNumber &&
+          number == model.selectedAns) {
         return model.color;
       } else {
         return kGrayColor;

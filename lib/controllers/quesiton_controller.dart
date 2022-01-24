@@ -25,16 +25,21 @@ class QuestionController extends ChangeNotifier {
   int numberCorrectAns = 0;
   Color color = kGrayColor;
   int selectedAns = -1;
+  int questionNumber = -1;
+  List<bool> storageResult = [];
 
   void checkAns(Question question, int selectedIndex) {
     isAnswered = true;
+    questionNumber = question.id;
     int correctAns = question.answer;
     selectedAns = selectedIndex;
     if (correctAns == selectedAns) {
       numberCorrectAns++;
       color = kGreenColor;
+      storageResult.add(true);
     } else if (selectedAns != correctAns) {
       color = kRedColor;
+      storageResult.add(false);
     }
     notifyListeners();
   }

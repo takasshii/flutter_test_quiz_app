@@ -36,6 +36,7 @@ class QuestionCard extends StatelessWidget {
             question.options.length,
             (index) => Option(
                 option: question.options[index],
+                questionNumber: question.id,
                 number: index,
                 press: () => model.checkAns(question, index))),
       ]),
