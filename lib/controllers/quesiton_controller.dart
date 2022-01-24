@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
 
+import '../constants.dart';
+
 class QuestionController extends ChangeNotifier {
   List<Question>? questions;
 
@@ -21,14 +23,19 @@ class QuestionController extends ChangeNotifier {
 
   bool isAnswered = false;
   int numberCorrectAns = 0;
-  late int correctAns;
-  late int selectedAns;
+  Color color = kGrayColor;
+  int selectedAns = -1;
 
   void checkAns(Question question, int selectedIndex) {
     isAnswered = true;
-    correctAns = question.answer;
-    selectedAns = selectedIndex;
-    if (correctAns == selectedIndex) numberCorrectAns++;
+    int correctAns = question.answer;
+    int selectedAns = selectedIndex;
+    if (correctAns == selectedAns) {
+      numberCorrectAns++;
+      color = kGreenColor;
+    } else if (selectedAns != correctAns) {
+      color = kRedColor;
+    }
     notifyListeners();
   }
 
