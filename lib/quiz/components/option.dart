@@ -19,7 +19,14 @@ class Option extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<QuestionController>(context);
-    Color color = (number == model.selectedAns) ? model.color : kGrayColor;
+
+    Color color() {
+      if (number == model.selectedAns) {
+        return model.color;
+      } else {
+        return kGrayColor;
+      }
+    }
 
     return InkWell(
       onTap: press,
@@ -27,7 +34,7 @@ class Option extends StatelessWidget {
         margin: EdgeInsets.only(top: kDefaultPadding),
         padding: EdgeInsets.all(kDefaultPadding),
         decoration: BoxDecoration(
-          border: Border.all(color: color),
+          border: Border.all(color: color()),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -35,14 +42,14 @@ class Option extends StatelessWidget {
           children: [
             Text(
               "$number, $option",
-              style: TextStyle(color: color, fontSize: 16),
+              style: TextStyle(color: color(), fontSize: 16),
             ),
             Container(
               height: 26,
               width: 26,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  border: Border.all(color: color)),
+                  border: Border.all(color: color())),
             )
           ],
         ),

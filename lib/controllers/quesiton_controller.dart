@@ -29,7 +29,7 @@ class QuestionController extends ChangeNotifier {
   void checkAns(Question question, int selectedIndex) {
     isAnswered = true;
     int correctAns = question.answer;
-    int selectedAns = selectedIndex;
+    selectedAns = selectedIndex;
     if (correctAns == selectedAns) {
       numberCorrectAns++;
       color = kGreenColor;
