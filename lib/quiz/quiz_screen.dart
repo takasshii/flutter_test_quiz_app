@@ -74,10 +74,13 @@ class QuizScreen extends StatelessWidget {
                   Expanded(child: Consumer<QuestionController>(
                       builder: (context, model, child) {
                     final List<Question>? questions = model.questions;
+                    print(model.pageController);
                     if (questions == null) {
                       return Center(child: CircularProgressIndicator());
                     }
                     return PageView.builder(
+                        controller: model.pageController,
+                        itemCount: questions.length,
                         itemBuilder: (context, index) => QuestionCard(
                             index: index, question: questions[index]));
                   })),

@@ -12,20 +12,35 @@ class ProgressController extends StatefulWidget {
 
 class ProgressControllerState extends State<ProgressController>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+  static late AnimationController animationController;
   late Animation _animation;
 
   void initState() {
     super.initState();
-    _animationController =
+    animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 60));
-    _animation = _animationController.drive(
+    _animation = animationController.drive(
       Tween<double>(
         begin: 1.0,
         end: 0.0,
       ),
     )..addListener(() => setState(() {}));
-    _animationController.forward();
+    animationController.forward();
+  }
+
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  static void start() {
+    animationController
+      ..reset()
+      ..forward();
+  }
+
+  void stop() {
+    animationController.stop();
   }
 
   @override
@@ -36,7 +51,7 @@ class ProgressControllerState extends State<ProgressController>
         LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) =>
               Container(
-            width: size.width * _animationController.value,
+            width: size.width * animationController.value,
             decoration: BoxDecoration(
               gradient: kPrimaryGradient,
               borderRadius: BorderRadius.circular(50),
@@ -50,7 +65,7 @@ class ProgressControllerState extends State<ProgressController>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("${(_animationController.value * 60).round()} sec"),
+                Text("${(animationController.value * 60).round()} sec"),
                 WebsafeSvg.asset("assets/icons/clock.svg")
               ],
             ),
@@ -58,21 +73,5 @@ class ProgressControllerState extends State<ProgressController>
         )
       ],
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  void start() {
-    _animationController
-      ..reset()
-      ..forward();
-  }
-
-  void stop() {
-    _animationController.stop();
   }
 }
