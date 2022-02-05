@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
 
 import '../constants.dart';
 
 class QuestionController extends ChangeNotifier {
   List<Question>? questions;
-
-  PageController? pageController;
 
   void fetchQuestionList() async {
     List<Question> _questions = await sample_data
@@ -45,12 +42,6 @@ class QuestionController extends ChangeNotifier {
       storageResult.add(false);
     }
     notifyListeners();
-    Future.delayed(Duration(seconds: 2), () {
-      isAnswered = false;
-      pageController?.nextPage(
-          duration: Duration(milliseconds: 100), curve: Curves.ease);
-      ProgressControllerState.start();
-    });
   }
 
   void nextQuestion() {

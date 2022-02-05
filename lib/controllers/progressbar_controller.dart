@@ -13,6 +13,7 @@ class ProgressController extends StatefulWidget {
 class ProgressControllerState extends State<ProgressController>
     with SingleTickerProviderStateMixin {
   static late AnimationController animationController;
+  //なぜか使用されない？？
   late Animation _animation;
 
   void initState() {

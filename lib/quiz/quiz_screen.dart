@@ -14,6 +14,8 @@ class QuizScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    //スクロールを行うコントローラー
+    final PageController pageController = PageController();
     return ChangeNotifierProvider<QuestionController>(
       create: (_) => QuestionController()..fetchQuestionList(),
       child: Scaffold(
@@ -74,15 +76,17 @@ class QuizScreen extends StatelessWidget {
                   Expanded(child: Consumer<QuestionController>(
                       builder: (context, model, child) {
                     final List<Question>? questions = model.questions;
-                    print(model.pageController);
+                    print(pageController);
                     if (questions == null) {
                       return Center(child: CircularProgressIndicator());
                     }
                     return PageView.builder(
-                        controller: model.pageController,
+                        controller: pageController,
                         itemCount: questions.length,
                         itemBuilder: (context, index) => QuestionCard(
-                            index: index, question: questions[index]));
+                            index: index,
+                            question: questions[index],
+                            pageController: pageController));
                   })),
                 ],
               ),
