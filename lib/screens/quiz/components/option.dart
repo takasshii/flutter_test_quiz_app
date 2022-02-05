@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
 import 'package:provider/provider.dart';
-
-import '../../constants.dart';
 
 class Option extends StatelessWidget {
   const Option(
@@ -22,12 +21,15 @@ class Option extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = Provider.of<QuestionController>(context);
     Color color() {
-      if (model.questionNumber == questionNumber &&
-          number == model.selectedAns) {
-        return model.color;
-      } else {
-        return kGrayColor;
+      if (model.isAnswered) {
+        if (model.questionNumber == questionNumber &&
+            number == model.selectedAns) {
+          return model.color;
+        } else {
+          return kGrayColor;
+        }
       }
+      return kGrayColor;
     }
 
     return InkWell(

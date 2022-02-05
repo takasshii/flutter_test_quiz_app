@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
-
-import '../../constants.dart';
 
 class ProgressBar extends StatelessWidget {
   ProgressBar({Key? key}) : super(key: key);

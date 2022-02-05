@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
-import 'package:flutter_test_takashii/quiz/components/option.dart';
+import 'package:flutter_test_takashii/screens/quiz/components/option.dart';
 import 'package:provider/provider.dart';
-
-import '../../constants.dart';
 
 class QuestionCard extends StatelessWidget {
   const QuestionCard(
