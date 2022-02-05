@@ -40,56 +40,60 @@ class QuizScreen extends StatelessWidget {
               height: size.height,
               child: WebsafeSvg.asset("assets/icons/bg.svg", fit: BoxFit.fill),
             ),
-            SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding)),
-                  ProgressBar(),
-                  SizedBox(height: kDefaultPadding),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Question 1",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            ?.copyWith(color: kSecondaryColor),
-                        children: [
+            Consumer<QuestionController>(
+              builder: (context, model, child) {
+                final List<Question>? questions = model.questions;
+                if (questions == null) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding)),
+                      ProgressBar(),
+                      SizedBox(height: kDefaultPadding),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding),
+                        child: Text.rich(
                           TextSpan(
-                            text: "/10",
+                            text: "Question ${model.questionNumber}",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline5
+                                .headline4
                                 ?.copyWith(color: kSecondaryColor),
+                            children: [
+                              TextSpan(
+                                text: "/${model.questions?.length}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    ?.copyWith(color: kSecondaryColor),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Divider(thickness: 1.5),
+                      SizedBox(height: kDefaultPadding),
+                      Expanded(
+                          child: PageView.builder(
+                              //前に戻れなくなる
+                              physics: NeverScrollableScrollPhysics(),
+                              controller: pageController,
+                              onPageChanged: model.updateQuestionNumber,
+                              itemCount: questions.length,
+                              itemBuilder: (context, index) => QuestionCard(
+                                  index: index,
+                                  question: questions[index],
+                                  pageController: pageController))),
+                    ],
                   ),
-                  Divider(thickness: 1.5),
-                  SizedBox(height: kDefaultPadding),
-                  Expanded(child: Consumer<QuestionController>(
-                      builder: (context, model, child) {
-                    final List<Question>? questions = model.questions;
-                    print(pageController);
-                    if (questions == null) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    return PageView.builder(
-                        controller: pageController,
-                        itemCount: questions.length,
-                        itemBuilder: (context, index) => QuestionCard(
-                            index: index,
-                            question: questions[index],
-                            pageController: pageController));
-                  })),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),

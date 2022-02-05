@@ -44,7 +44,8 @@ class QuestionController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void nextQuestion() {
-    isAnswered = false;
+  void updateQuestionNumber(int index) {
+    questionNumber = index + 1;
+    notifyListeners();
   }
 }
