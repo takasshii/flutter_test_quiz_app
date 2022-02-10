@@ -4,6 +4,7 @@ import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
 import 'package:flutter_test_takashii/screens/quiz/components/option.dart';
+import 'package:flutter_test_takashii/screens/score/score_screen.dart';
 import 'package:provider/provider.dart';
 
 class QuestionCard extends StatelessWidget {
@@ -11,12 +12,14 @@ class QuestionCard extends StatelessWidget {
       {Key? key,
       required this.question,
       required this.index,
-      required this.pageController})
+      required this.pageController,
+      required this.questionLength})
       : super(key: key);
 
   final Question question;
   final int index;
   final PageController pageController;
+  final int questionLength;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +47,20 @@ class QuestionCard extends StatelessWidget {
               option: question.options[index],
               questionNumber: question.id,
               number: index,
-              press: () {
+              press: () async {
                 model.checkAns(question, index);
-                pageScrollModel(model);
+                ProgressControllerState.stop();
+                if (question.id != questionLength)
+                  pageScrollModel(model);
+                else {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ScoreScreen(questionLength: questionLength),
+                    ),
+                  );
+                }
               },
             ),
           ),

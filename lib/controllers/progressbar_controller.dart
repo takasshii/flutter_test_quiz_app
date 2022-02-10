@@ -40,7 +40,7 @@ class ProgressControllerState extends State<ProgressController>
       ..forward();
   }
 
-  void stop() {
+  static void stop() {
     animationController.stop();
   }
 

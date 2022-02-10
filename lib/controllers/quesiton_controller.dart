@@ -22,7 +22,7 @@ class QuestionController extends ChangeNotifier {
   }
 
   bool isAnswered = false;
-  int numberCorrectAns = 0;
+  static int numberCorrectAns = 0;
   Color color = kGrayColor;
   int selectedAns = -1;
   int questionNumber = -1;

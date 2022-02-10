@@ -89,7 +89,8 @@ class QuizScreen extends StatelessWidget {
                               itemBuilder: (context, index) => QuestionCard(
                                   index: index,
                                   question: questions[index],
-                                  pageController: pageController))),
+                                  pageController: pageController,
+                                  questionLength: questions.length))),
                     ],
                   ),
                 );
