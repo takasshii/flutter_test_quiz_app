@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
+import 'package:flutter_test_takashii/screens/commonComponents/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/quiz/quiz_screen.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
@@ -70,6 +71,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BuildBottomNavigationBar(),
     );
   }
 }
