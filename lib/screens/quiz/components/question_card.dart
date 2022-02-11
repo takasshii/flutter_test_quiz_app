@@ -74,7 +74,7 @@ class QuestionCard extends StatelessWidget {
   Future<Null> pageScrollModel(QuestionController model) {
     return Future.delayed(
       //２秒後に行う
-      Duration(seconds: 2),
+      Duration(seconds: 1),
       () {
         model.isAnswered = false;
         if (pageController.hasClients) {
