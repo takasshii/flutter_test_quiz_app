@@ -7,7 +7,6 @@ class SearchBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
       child: Stack(

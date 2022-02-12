@@ -20,33 +20,39 @@ class RecommendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: kGrayColor.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 10),
+            blurRadius: 4,
+            color: kGrayColor.withOpacity(0.23),
+          ),
+        ],
+      ),
       margin: EdgeInsets.only(
-        left: kDefaultPadding,
+        right: kDefaultPadding / 1.5,
         top: kDefaultPadding / 2,
         bottom: kDefaultPadding / 2,
       ),
       width: size.width * 0.3,
       child: Column(
         children: <Widget>[
-          Image.asset(image),
+          Container(
+            //写真のサイズを固定
+            width: size.width * 0.3,
+            height: size.width * 0.3,
+            child: Image.asset(
+              image,
+              fit: BoxFit.contain,
+            ),
+          ),
           GestureDetector(
             onTap: press,
             child: Container(
               padding: EdgeInsets.all(kDefaultPadding / 2),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 10),
-                    blurRadius: 4,
-                    color: kGrayColor.withOpacity(0.23),
-                  ),
-                ],
-              ),
               child: Row(
                 children: <Widget>[
                   RichText(
