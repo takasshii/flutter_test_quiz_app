@@ -14,13 +14,13 @@ class ProgressControllerState extends State<ProgressController>
     with SingleTickerProviderStateMixin {
   static late AnimationController animationController;
   //なぜか使用されない？？
-  late Animation _animation;
+  late Animation animation;
 
   void initState() {
     super.initState();
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 60));
-    _animation = animationController.drive(
+    animation = animationController.drive(
       Tween<double>(
         begin: 1.0,
         end: 0.0,

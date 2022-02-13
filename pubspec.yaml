@@ -47,6 +47,8 @@ dependencies:
   firebase_auth: ^3.3.7
   cloud_firestore: ^3.1.8
 
+  #吹き出し
+  bubble: ^1.2.1
 
 dev_dependencies:
   flutter_test:
