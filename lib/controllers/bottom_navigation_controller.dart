@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:flutter_test_takashii/screens/learningData/learning_data_page.dart';
+import 'package:flutter_test_takashii/screens/myPage/my_page_screen.dart';
 import 'package:flutter_test_takashii/screens/welcome/welcome_screen.dart';
 
 int selectedIndex = 0;
@@ -47,7 +48,7 @@ class BottomNavigationController extends ChangeNotifier {
         context,
         new PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              new WelcomeScreen(),
+              new MyPageScreen(),
           transitionDuration: Duration(seconds: 0),
         ),
         (_) => false,
