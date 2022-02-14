@@ -1,37 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
+import 'package:flutter_test_takashii/constants.dart';
 
-import '../../constants.dart';
-import 'components/pieChart/indicator.dart';
-import 'components/review_question_count.dart';
-import 'components/title_with_two_icon.dart';
-
-class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          margin: EdgeInsets.all(kDefaultPadding),
-          width: size.width - 40,
-          child: Column(
-            children: [
-              TitleWithTwoIcon(),
-              Spacer(),
-              PieChartSample2(),
-              Spacer(flex: 2),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BuildBottomNavigationBar(),
-    );
-  }
-}
+import '../review_question_count.dart';
+import 'indicator.dart';
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({Key? key}) : super(key: key);

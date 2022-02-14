@@ -50,6 +50,9 @@ dependencies:
   #吹き出し
   bubble: ^1.2.1
 
+  #円グラフ
+  fl_chart: ^0.45.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
