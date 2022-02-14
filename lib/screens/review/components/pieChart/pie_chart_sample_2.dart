@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/constants.dart';
 
+import '../../../../constants.dart';
 import '../review_question_count.dart';
 import 'indicator.dart';
 
@@ -20,70 +20,68 @@ class PieChart2State extends State {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return AspectRatio(
-      aspectRatio: 1.3,
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2),
       child: Column(
         children: <Widget>[
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Stack(
-                children: [
-                  PieChart(
-                    PieChartData(
-                        startDegreeOffset: 270,
-                        pieTouchData: PieTouchData(touchCallback:
-                            (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          });
-                        }),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 0,
-                        centerSpaceRadius: size.width / 4,
-                        sections: showingSections()),
-                  ),
-                  Positioned.fill(
-                    child: Row(
-                      children: [
-                        RichText(
-                            text: TextSpan(
-                                text: "${percentage}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: size.width / 6,
-                                    color: kBlackColor))),
-                        Container(
-                          height: size.width / 6,
-                          alignment: Alignment.bottomCenter,
-                          padding: EdgeInsets.only(left: kDefaultPadding / 4),
-                          child: RichText(
-                            text: TextSpan(
-                              text: "%",
+          AspectRatio(
+            aspectRatio: 1,
+            child: Stack(
+              children: [
+                PieChart(
+                  PieChartData(
+                      startDegreeOffset: 270,
+                      pieTouchData: PieTouchData(touchCallback:
+                          (FlTouchEvent event, pieTouchResponse) {
+                        setState(() {
+                          if (!event.isInterestedForInteractions ||
+                              pieTouchResponse == null ||
+                              pieTouchResponse.touchedSection == null) {
+                            touchedIndex = -1;
+                            return;
+                          }
+                          touchedIndex = pieTouchResponse
+                              .touchedSection!.touchedSectionIndex;
+                        });
+                      }),
+                      borderData: FlBorderData(
+                        show: false,
+                      ),
+                      sectionsSpace: 0,
+                      centerSpaceRadius: size.width / 4,
+                      sections: showingSections()),
+                ),
+                Positioned.fill(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                              text: "${percentage}",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: size.width / 10,
-                                  color: kGrayColor),
-                            ),
+                                  fontSize: size.width / 6,
+                                  color: kBlackColor))),
+                      Container(
+                        height: size.width / 6,
+                        alignment: Alignment.bottomCenter,
+                        padding: EdgeInsets.only(left: kDefaultPadding / 4),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "%",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: size.width / 10,
+                                color: kGrayColor),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          Spacer(),
           Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
