@@ -42,7 +42,6 @@ class SignUpModel extends ChangeNotifier {
     var publicUserReference =
         firestore.collection('public-profiles').doc(user_uid);
 
-    print(publicUserReference);
     var publicUserWrite = {
       'name': "名無しの権平",
       'grade': null,
@@ -51,6 +50,7 @@ class SignUpModel extends ChangeNotifier {
       'total_time': 0,
       'today_time': 0,
       'createdAt': FieldValue.serverTimestamp(),
+      'updatedAt': FieldValue.serverTimestamp(),
     };
 
     //publicの内容をbatchに保存する

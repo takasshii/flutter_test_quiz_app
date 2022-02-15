@@ -21,7 +21,7 @@ class MyPageModel extends ChangeNotifier {
     final String name = snapShot.get('name');
     final int? grade = snapShot.get('grade');
     final bool graduation = snapShot.get('graduation');
-    final bool open = snapShot.get('graduation');
+    final bool open = snapShot.get('open');
     this.userDetailList = UserGet(name, grade, graduation, open);
     notifyListeners();
   }

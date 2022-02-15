@@ -5,6 +5,10 @@ import 'package:flutter_test_takashii/domain/userWrite.dart';
 
 class SettingModel extends ChangeNotifier {
   UserWrite? user;
+  String? name;
+  int? grade;
+  bool? graduation;
+  bool? open;
   final nameController = TextEditingController();
   final gradeController = TextEditingController();
   final graduationController = TextEditingController();
@@ -17,12 +21,10 @@ class SettingModel extends ChangeNotifier {
 
   SettingModel(user) {
     nameController.text = user!.name;
+    grade = user.grade;
+    graduation = user.graduation;
+    open = user.open;
   }
-
-  String? name;
-  int? grade;
-  bool? graduation;
-  bool? open;
 
   void setName(String name) {
     this.name = name;
@@ -39,11 +41,23 @@ class SettingModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool isLoading = false;
+
+  startLoading() {
+    isLoading = true;
+    notifyListeners();
+  }
+
+  endLoading() {
+    isLoading = false;
+    notifyListeners();
+  }
+
   bool isUpdated() {
     return name != null || open != null || graduation != null;
   }
 
-  Future<void> userCreate() async {
+  Future<void> userUpdate() async {
     //userのreferenceを取得
 
     //バッチに保管する
@@ -66,17 +80,17 @@ class SettingModel extends ChangeNotifier {
     var publicUserReference =
         firestore.collection('public-profiles').doc(user_uid);
 
-    print(publicUserReference);
     var publicUserWrite = {
       'name': name,
       'grade': grade,
       'open': open,
       'graduation': graduation,
+      'updatedAt': FieldValue.serverTimestamp(),
     };
 
     //publicの内容をbatchに保存する
     batch.update(publicUserReference, publicUserWrite);
     //書き込む
-    batch.commit();
+    await batch.commit();
   }
 }

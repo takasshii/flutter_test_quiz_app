@@ -4,6 +4,7 @@ import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import 'components/build_outlinded_button.dart';
 import 'models/setting_model.dart';
 
 class SettingProfile extends StatelessWidget {
@@ -36,6 +37,7 @@ class SettingProfile extends StatelessWidget {
                   EditName(),
                   EditGrade(),
                   EditOpen(),
+                  BuildOutlinedButton(title: "完了"),
                 ],
               ),
             ),
@@ -130,12 +132,12 @@ class EditOpen extends StatelessWidget {
           value: model.open,
           items: [
             DropdownMenuItem(
-              child: Text('公開'),
-              value: true,
-            ),
-            DropdownMenuItem(
               child: Text('非公開'),
               value: false,
+            ),
+            DropdownMenuItem(
+              child: Text('公開'),
+              value: true,
             ),
           ],
           onChanged: (value) {
