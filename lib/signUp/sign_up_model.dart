@@ -19,7 +19,6 @@ class SignUpModel extends ChangeNotifier {
     //userのuidを取得
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final user_uid = _auth.currentUser!.uid;
-    print(user_uid);
     //userのreferenceを取得
 
     //バッチに保管する
@@ -37,7 +36,6 @@ class SignUpModel extends ChangeNotifier {
       'updatedAt': FieldValue.serverTimestamp()
     };
 
-    print(userReference);
     batch.set(userReference, userWrite);
 
     //public-profileのreferenceを取得
@@ -57,11 +55,8 @@ class SignUpModel extends ChangeNotifier {
 
     //publicの内容をbatchに保存する
     batch.set(publicUserReference, publicUserWrite);
-
-    print(batch);
     //書き込む
     batch.commit();
-    print(batch);
   }
 }
 

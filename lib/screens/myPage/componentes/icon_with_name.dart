@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/domain/userGet.dart';
 
 import '../../../constants.dart';
 
 class IconWithName extends StatelessWidget {
-  const IconWithName({Key? key}) : super(key: key);
+  const IconWithName({Key? key, required this.user}) : super(key: key);
+
+  final UserGet user;
 
   @override
   Widget build(BuildContext context) {
