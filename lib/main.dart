@@ -31,13 +31,17 @@ class RootPage extends StatelessWidget {
     return ChangeNotifierProvider<SignUpModel>(
       create: (_) => SignUpModel(),
       child: Consumer<SignUpModel>(builder: (context, model, child) {
-        UserCredential? _userCredential =
-            context.watch<SignUpModel>().userCredential;
-        if (_userCredential == null) {
-          model.login();
+        final FirebaseAuth _auth = FirebaseAuth.instance;
+        var currentUser = _auth.currentUser;
+        if (currentUser == null) {
+          model.login(currentUser);
+          FirebaseAuth.instance.userChanges().listen((User? user) {
+            if (user != null) {
+              model.userCreate();
+            }
+          });
           return WelcomeScreen();
         } else {
-          print("logged in");
           return WelcomeScreen();
         }
       }),
