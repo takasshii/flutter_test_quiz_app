@@ -29,7 +29,15 @@ class QuestionCard extends StatelessWidget {
       padding: EdgeInsets.all(kDefaultPadding),
       decoration: BoxDecoration(
         color: Colors.white,
+        border: Border.all(color: kGrayColor.withOpacity(0.3)),
         borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 10),
+            blurRadius: 4,
+            color: kGrayColor.withOpacity(0.23),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -53,6 +61,7 @@ class QuestionCard extends StatelessWidget {
                 if (question.id != questionLength)
                   pageScrollModel(model);
                 else {
+                  model.s.stop();
                   await Navigator.push(
                     context,
                     MaterialPageRoute(

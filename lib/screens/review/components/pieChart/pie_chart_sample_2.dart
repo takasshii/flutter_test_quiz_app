@@ -15,13 +15,13 @@ class PieChartSample2 extends StatefulWidget {
 class PieChart2State extends State {
   int touchedIndex = -1;
   //statefulでの値の受け渡し調べてここ直しておく
-  int percentage = 1;
+  int percentage = 25;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2),
+      padding: EdgeInsets.only(bottom: kDefaultPadding * 2),
       child: Column(
         children: <Widget>[
           AspectRatio(

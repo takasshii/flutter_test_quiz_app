@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/screens/quiz/quiz_screen.dart';
 
 import '../../../constants.dart';
 
@@ -34,7 +35,10 @@ class BuildOutlinedButton extends StatelessWidget {
       child: SizedBox(
         height: 50,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => (QuizScreen())));
+          },
           child: Text("${title}",
               style: TextStyle(color: kBlackColor, fontSize: 16)),
           style: ElevatedButton.styleFrom(

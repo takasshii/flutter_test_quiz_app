@@ -1,5 +1,5 @@
 class NotificationShort {
-  NotificationShort(this.content, this.createdAt);
+  NotificationShort(this.content, this.updatedAt);
   String content;
-  DateTime createdAt;
+  DateTime updatedAt;
 }

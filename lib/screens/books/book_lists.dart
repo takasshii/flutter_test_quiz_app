@@ -40,25 +40,25 @@ class BookList extends StatelessWidget {
                   children: [
                     RecommendCard(
                         image: "assets/images/ピンクのエイリアン.png",
-                        title: "2022",
+                        title: "2022年",
                         country: "JP",
-                        price: 200,
+                        price: 0,
                         press: () {}),
                     RecommendCard(
                         image: "assets/images/紫のエイリアン.png",
-                        title: "2021",
+                        title: "2021年",
                         country: "JP",
                         price: 200,
                         press: () {}),
                     RecommendCard(
                         image: "assets/images/緑のエイリアン.png",
-                        title: "2020",
+                        title: "2020年",
                         country: "JP",
                         price: 200,
                         press: () {}),
                     RecommendCard(
                         image: "assets/images/黄色のエイリアン.png",
-                        title: "2019",
+                        title: "2019年",
                         country: "JP",
                         price: 200,
                         press: () {}),

@@ -5,8 +5,14 @@ import '../constants.dart';
 
 class QuestionController extends ChangeNotifier {
   List<Question>? questions;
+  static int numberCorrectAns = 0;
+  int numberLearnedQuestionSum = 0;
+  int numberCorrectQuestionSum = 0;
+  Stopwatch s = Stopwatch();
 
   void fetchQuestionList() async {
+    numberCorrectAns = 0;
+    s.start();
     List<Question> _questions = await sample_data
         .map(
           (question) => Question(
@@ -22,7 +28,6 @@ class QuestionController extends ChangeNotifier {
   }
 
   bool isAnswered = false;
-  static int numberCorrectAns = 0;
   Color color = kGrayColor;
   int selectedAns = -1;
   int questionNumber = -1;
@@ -33,8 +38,10 @@ class QuestionController extends ChangeNotifier {
     questionNumber = question.id;
     int correctAns = question.answer;
     selectedAns = selectedIndex;
+    numberLearnedQuestionSum++;
     if (correctAns == selectedAns) {
       numberCorrectAns++;
+      numberCorrectQuestionSum++;
       color = kGreenColor;
       storageResult.add(true);
     } else if (selectedAns != correctAns) {

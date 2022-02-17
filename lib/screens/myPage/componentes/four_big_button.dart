@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/userGet.dart';
+import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
+import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
+import 'package:flutter_test_takashii/screens/myPage/policy/policy_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
 
 import '../../../constants.dart';
@@ -18,22 +21,16 @@ class FourBigButton extends StatelessWidget {
               builder: (context) => (SettingProfile(user: user))));
     };
     void Function() notification = () async {
-      await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => (SettingProfile(user: user))));
+      await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => (NotificationPage())));
     };
     void Function() askUs = () async {
       await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => (SettingProfile(user: user))));
+          context, MaterialPageRoute(builder: (context) => (AskUsPage())));
     };
     void Function() UserPolicy = () async {
       await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => (SettingProfile(user: user))));
+          context, MaterialPageRoute(builder: (context) => (PolicyPage())));
     };
     return Column(
       children: [

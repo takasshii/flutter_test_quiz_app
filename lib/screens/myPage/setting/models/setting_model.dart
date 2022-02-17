@@ -21,6 +21,7 @@ class SettingModel extends ChangeNotifier {
 
   SettingModel(user) {
     nameController.text = user!.name;
+    name = user.name;
     grade = user.grade;
     graduation = user.graduation;
     open = user.open;
@@ -54,7 +55,9 @@ class SettingModel extends ChangeNotifier {
   }
 
   bool isUpdated() {
-    return name != null || open != null || graduation != null;
+    return (name != null && (0 < name!.length) && (name!.length < 11)) &&
+        open != null &&
+        graduation != null;
   }
 
   Future<void> userUpdate() async {

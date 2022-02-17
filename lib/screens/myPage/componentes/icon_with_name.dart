@@ -35,14 +35,14 @@ class IconWithName extends StatelessWidget {
           children: [
             RichText(
                 text: TextSpan(
-                    text: "名前が入るよ",
+                    text: "${user.name}さん",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: kBlackColor))),
             RichText(
               text: TextSpan(
-                text: "バッチがここに入るよ",
+                text: "${user.grade}回生",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,

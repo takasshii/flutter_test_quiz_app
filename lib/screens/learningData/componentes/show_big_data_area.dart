@@ -46,7 +46,7 @@ class ShowBigDataArea extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: height / 3,
-                          color: kLogoBackGroundColor),
+                          color: kBlackColor),
                     ),
                   ),
                   Container(
