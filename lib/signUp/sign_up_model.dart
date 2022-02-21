@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SignUpModel extends ChangeNotifier {
   void login(currentUser) {
@@ -57,6 +58,41 @@ class SignUpModel extends ChangeNotifier {
     batch.set(publicUserReference, publicUserWrite);
     //書き込む
     batch.commit();
+  }
+
+  //ローカルに書き込む
+  Future<void> userLocalCreate() async {
+    const databaseName = 'your_database.db';
+    final databasePath = await getDatabasesPath();
+
+    const String createUserSql =
+        'CREATE TABLE User(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, day TEXT, color TEXT)';
+    WidgetsFlutterBinding.ensureInitialized();
+    // Open or connect database
+    Database database = await openDatabase(databasePath, version: 1,
+        onCreate: (Database db, int version) async {
+      // When creating the db, create the table
+      await db.execute(createUserSql);
+    });
+
+    final db = await database;
+    const String tableName = 'Diary';
+    Map<String, dynamic> record = {
+      'name': "名無しの権平",
+      'grade': null,
+      'open': true,
+      'graduation': false,
+      'total_time': 0,
+      'today_time': 0,
+      'createdAt': FieldValue.serverTimestamp().toUtc().toIso8601String(),
+      'updatedAt': FieldValue.serverTimestamp().toUtc().toIso8601String(),
+    };
+
+    await db.insert(
+      tableName,
+      record,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
 

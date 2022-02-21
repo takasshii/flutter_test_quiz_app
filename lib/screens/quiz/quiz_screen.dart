@@ -12,7 +12,6 @@ class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     //スクロールを行うコントローラー
     final PageController pageController = PageController();
     return ChangeNotifierProvider<QuestionController>(

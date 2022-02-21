@@ -53,6 +53,9 @@ dependencies:
   #円グラフ
   fl_chart: ^0.45.0
 
+  #ローカルdb
+  sqflite: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
