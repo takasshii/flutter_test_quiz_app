@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
 import 'package:flutter_test_takashii/screens/quiz/quiz_screen.dart';
 
 import '../../../constants.dart';
@@ -36,6 +37,7 @@ class BuildOutlinedButton extends StatelessWidget {
         height: 50,
         child: ElevatedButton(
           onPressed: () {
+            QuestionController.startStopWatch();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => (QuizScreen())));
           },

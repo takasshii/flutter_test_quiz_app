@@ -57,18 +57,25 @@ class QuestionCard extends StatelessWidget {
               number: index,
               press: () async {
                 model.checkAns(question, index);
+                model.fetchLearningDataList();
                 ProgressControllerState.stop();
                 if (question.id != questionLength)
                   pageScrollModel(model);
                 else {
-                  model.s.stop();
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ScoreScreen(questionLength: questionLength),
-                    ),
-                  );
+                  model.fetchLearningDataList();
+                  if (model.learningDateList != null) {
+                    model.stopStopWatch();
+                    //データの更新
+                    model.UpdateContinuousDaysUpdate(
+                        questionLength, QuestionController.numberCorrectAns);
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ScoreScreen(questionLength: questionLength),
+                      ),
+                    );
+                  }
                 }
               },
             ),

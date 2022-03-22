@@ -42,6 +42,56 @@ class ShowBigDataArea extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
+                      text: "${data ~/ 3600}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: height / 3,
+                          color: kBlackColor),
+                    ),
+                  ),
+                  Container(
+                    //上のフォントサイズと合わせた。（注）
+                    height: height / 3,
+                    alignment: Alignment.bottomCenter,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "時間",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: height / 6,
+                            color: kGrayColor),
+                      ),
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: "${data ~/ 60}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: height / 3,
+                          color: kBlackColor),
+                    ),
+                  ),
+                  Container(
+                    //上のフォントサイズと合わせた。（注）
+                    height: height / 3,
+                    alignment: Alignment.bottomCenter,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+                    child: RichText(
+                      text: TextSpan(
+                        text: "分",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: height / 6,
+                            color: kGrayColor),
+                      ),
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
                       text: "${data}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,

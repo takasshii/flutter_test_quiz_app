@@ -59,7 +59,8 @@ class LearningDataPage extends StatelessWidget {
                           ),
                           ShowDataArea(
                               title: "本日の学習時間",
-                              data: learningData.todayTime,
+                              //秒で渡されるので変換
+                              data: learningData.todayTime ~/ 60,
                               unit: "分"),
                         ],
                       ),
@@ -79,7 +80,8 @@ class LearningDataPage extends StatelessWidget {
                         ],
                       ),
                       ShowBigDataArea(
-                          title: "合計学習時間", data: learningData.learnedQuestion),
+                          title: "合計学習時間",
+                          data: learningData.totalLearningTime),
                     ],
                   );
                 },
