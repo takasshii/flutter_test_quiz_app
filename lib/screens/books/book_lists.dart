@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
+import 'package:flutter_test_takashii/controllers/bottom_navigation_controller.dart';
 import 'package:flutter_test_takashii/screens/books/components/search_box.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
+import 'package:flutter_test_takashii/screens/review/review_screen.dart';
 
 import 'components/recommend_card.dart';
 import 'components/title_of_books.dart';
@@ -40,28 +42,60 @@ class BookList extends StatelessWidget {
                   children: [
                     RecommendCard(
                         image: "assets/images/ピンクのエイリアン.png",
-                        title: "2022年",
+                        title: "105回",
                         country: "JP",
                         price: 0,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 0),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/紫のエイリアン.png",
-                        title: "2021年",
+                        title: "104回",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 1),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/緑のエイリアン.png",
-                        title: "2020年",
+                        title: "103回",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 2),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/黄色のエイリアン.png",
-                        title: "2019年",
+                        title: "102回",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 3),
+                              ));
+                        }),
                   ],
                 ),
               ),
@@ -85,25 +119,57 @@ class BookList extends StatelessWidget {
                         title: "2021",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 4),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/エジプト神（トリ型）.png",
                         title: "2021",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 5),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/エジプト神（ヒト型）.png",
                         title: "2021",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 6),
+                              ));
+                        }),
                     RecommendCard(
                         image: "assets/images/ピラミッド.png",
                         title: "2021",
                         country: "JP",
                         price: 200,
-                        press: () {}),
+                        press: () async {
+                          selectedIndex = 1;
+                          await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ReviewScreen(initialIndex: 7),
+                              ));
+                        }),
                   ],
                 ),
               ),

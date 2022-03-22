@@ -7,25 +7,27 @@ import 'components/reviewtwo_middle_button.dart';
 import 'components/title_with_two_icon.dart';
 
 class ReviewScreen extends StatelessWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
+  const ReviewScreen({Key? key, required this.initialIndex}) : super(key: key);
 
+  final int initialIndex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
         length: 10,
+        initialIndex: initialIndex,
         child: TabBarView(
           children: [
-            BuildReviewScreen(title: "2021"),
-            BuildReviewScreen(title: "2020"),
-            BuildReviewScreen(title: "2019"),
-            BuildReviewScreen(title: "2018"),
-            BuildReviewScreen(title: "2017"),
-            BuildReviewScreen(title: "2016"),
-            BuildReviewScreen(title: "2015"),
-            BuildReviewScreen(title: "2014"),
-            BuildReviewScreen(title: "2013"),
-            BuildReviewScreen(title: "2012"),
+            BuildReviewScreen(title: "105回"),
+            BuildReviewScreen(title: "104回"),
+            BuildReviewScreen(title: "103回"),
+            BuildReviewScreen(title: "102回"),
+            BuildReviewScreen(title: "101回"),
+            BuildReviewScreen(title: "100回"),
+            BuildReviewScreen(title: "105回"),
+            BuildReviewScreen(title: "105回"),
+            BuildReviewScreen(title: "105回"),
+            BuildReviewScreen(title: "105回"),
           ],
         ),
       ),

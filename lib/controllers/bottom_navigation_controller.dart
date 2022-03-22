@@ -26,7 +26,7 @@ class BottomNavigationController extends ChangeNotifier {
         context,
         new PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
-              new ReviewScreen(),
+              new ReviewScreen(initialIndex: 0),
           transitionDuration: Duration(seconds: 0),
         ),
         (_) => false,

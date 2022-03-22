@@ -19,39 +19,39 @@ class RecommendCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: kGrayColor.withOpacity(0.3)),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            offset: Offset(0, 10),
-            blurRadius: 4,
-            color: kGrayColor.withOpacity(0.23),
-          ),
-        ],
-      ),
-      margin: EdgeInsets.only(
-        right: kDefaultPadding / 1.5,
-        top: kDefaultPadding / 2,
-        bottom: kDefaultPadding / 2,
-      ),
-      width: size.width * 0.3,
-      child: Column(
-        children: <Widget>[
-          Container(
-            //写真のサイズを固定
-            width: size.width * 0.3,
-            height: size.width * 0.3,
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
+    return GestureDetector(
+      onTap: press,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: kGrayColor.withOpacity(0.3)),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 10),
+              blurRadius: 4,
+              color: kGrayColor.withOpacity(0.23),
             ),
-          ),
-          GestureDetector(
-            onTap: press,
-            child: Container(
+          ],
+        ),
+        margin: EdgeInsets.only(
+          right: kDefaultPadding / 1.5,
+          top: kDefaultPadding / 2,
+          bottom: kDefaultPadding / 2,
+        ),
+        width: size.width * 0.3,
+        child: Column(
+          children: <Widget>[
+            Container(
+              //写真のサイズを固定
+              width: size.width * 0.3,
+              height: size.width * 0.3,
+              child: Image.asset(
+                image,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Container(
               padding: EdgeInsets.all(kDefaultPadding / 2),
               child: Row(
                 children: <Widget>[
@@ -80,9 +80,9 @@ class RecommendCard extends StatelessWidget {
                   )
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
