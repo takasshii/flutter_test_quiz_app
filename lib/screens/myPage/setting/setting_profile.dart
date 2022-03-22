@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/domain/userGet.dart';
+import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -153,6 +153,10 @@ class EditGrade extends StatelessWidget {
         child: DropdownButton<int>(
             value: model.grade,
             items: [
+              DropdownMenuItem(
+                child: Text('未設定'),
+                value: 0,
+              ),
               DropdownMenuItem(
                 child: Text('1回生'),
                 value: 1,

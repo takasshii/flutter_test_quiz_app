@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/domain/userGet.dart';
+import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/policy/policy_page.dart';

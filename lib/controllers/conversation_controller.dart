@@ -1,27 +1,38 @@
-import 'dart:math' as math;
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ConversationController extends ChangeNotifier {
-  //タップするごとにランダムでお話をするようにする
-  int rand = new math.Random() as int;
+  //時間を計測
+  int now = DateTime.now().hour;
 
-  //ご新規さん
+  late int conversationRange;
 
-  //頑張ってる時
+  void timeCheck() {
+    if (now >= 3 && now <= 10) {
+      conversationRange = 1;
+    } else if (now >= 11 && now <= 17) {
+      conversationRange = 2;
+    } else {
+      conversationRange = 3;
+    }
+  }
 
-  //朝早い時
+  final conversationFirst = [
+    [
+      "おはようございます！今日も1日がんばりましょう！",
+    ],
+    [
+      "こんにちは！昼からも頑張っていこう！",
+    ],
+    ["こんばんは！おつかれさまです！"],
+    ["こんにちは！これからよろしくお願いします！"],
+  ];
 
-  //お昼休憩の時
+  late String conversation;
 
-  //夜遅い時
-
-  //実習が始まる時
-
-  //国試前
-
-  //国家試験の日程について
-
-  //更新した時
-
+  void randConversation() {
+    timeCheck();
+    conversationFirst[conversationRange].shuffle();
+    conversation = conversationFirst[conversationRange][0];
+  }
 }

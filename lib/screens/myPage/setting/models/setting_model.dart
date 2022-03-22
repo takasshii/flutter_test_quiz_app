@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_test_takashii/domain/userWrite.dart';
+import 'package:flutter_test_takashii/domain/user_write.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SettingModel extends ChangeNotifier {
   UserWrite? user;
@@ -95,5 +97,35 @@ class SettingModel extends ChangeNotifier {
     batch.update(publicUserReference, publicUserWrite);
     //書き込む
     await batch.commit();
+
+    const databaseName = 'your_database.db';
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, databaseName);
+
+    Database database = await openDatabase(path, version: 1);
+
+    final db = await database;
+    WidgetsFlutterBinding.ensureInitialized();
+
+    const String tableName = 'User';
+    int graduation_local = 0;
+    int open_local = 0;
+    if (graduation == true) {
+      graduation_local = 1;
+    }
+    if (open == true) {
+      open_local = 1;
+    }
+    Map<String, dynamic> record = {
+      'name': name,
+      'grade': grade,
+      'open': open_local,
+      'graduation': graduation_local,
+    };
+
+    await db.update(
+      tableName,
+      record,
+    );
   }
 }

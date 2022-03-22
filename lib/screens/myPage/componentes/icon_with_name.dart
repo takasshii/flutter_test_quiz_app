@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/domain/userGet.dart';
+import 'package:flutter_test_takashii/domain/user_get.dart';
 
 import '../../../constants.dart';
 
@@ -42,7 +42,7 @@ class IconWithName extends StatelessWidget {
                         color: kBlackColor))),
             RichText(
               text: TextSpan(
-                text: "${user.grade}回生",
+                text: user.grade == 0 ? "学年未設定" : "${user.grade}回生",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,

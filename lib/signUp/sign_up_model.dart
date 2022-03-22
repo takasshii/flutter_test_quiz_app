@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SignUpModel extends ChangeNotifier {
@@ -63,34 +64,54 @@ class SignUpModel extends ChangeNotifier {
   //ローカルに書き込む
   Future<void> userLocalCreate() async {
     const databaseName = 'your_database.db';
-    final databasePath = await getDatabasesPath();
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, databaseName);
 
     const String createUserSql =
-        'CREATE TABLE User(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, day TEXT, color TEXT)';
+        'CREATE TABLE User(uid TEXT, name TEXT, grade INTEGER, open INTEGER, graduation INTEGER)';
+    const String createLearningDataSql =
+        'CREATE TABLE LearningData(id INTEGER PRIMARY KEY AUTOINCREMENT, currentContinuousRecord INTEGER, continuousRecord INTEGER, totalDay INTEGER, todayTime INTEGER, totalQuestion INTEGER, learnedQuestion INTEGER, totalLearningTime INTEGER, createdAt, INTEGER, updatedAt INTEGER)';
     WidgetsFlutterBinding.ensureInitialized();
     // Open or connect database
-    Database database = await openDatabase(databasePath, version: 1,
+    Database database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       // When creating the db, create the table
       await db.execute(createUserSql);
+      await db.execute(createLearningDataSql);
     });
 
     final db = await database;
-    const String tableName = 'Diary';
-    Map<String, dynamic> record = {
+    const String tableName1 = 'User';
+    Map<String, dynamic> record1 = {
+      'uid': FirebaseAuth.instance.currentUser!.uid,
       'name': "名無しの権平",
-      'grade': null,
-      'open': true,
-      'graduation': false,
-      'total_time': 0,
-      'today_time': 0,
-      'createdAt': FieldValue.serverTimestamp().toUtc().toIso8601String(),
-      'updatedAt': FieldValue.serverTimestamp().toUtc().toIso8601String(),
+      'grade': 0,
+      'open': 1,
+      'graduation': 0,
     };
 
     await db.insert(
-      tableName,
-      record,
+      tableName1,
+      record1,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    const String tableName2 = 'LearningData';
+    Map<String, dynamic> record2 = {
+      'currentContinuousRecord': 1,
+      'continuousRecord': 1,
+      'totalDay': 1,
+      'todayTime': 0,
+      'totalQuestion': 0,
+      'learnedQuestion': 0,
+      'totalLearningTime': 0,
+      'createdAt': DateTime.now().toUtc().toIso8601String(),
+      'updatedAt': DateTime.now().toUtc().toIso8601String(),
+    };
+
+    await db.insert(
+      tableName2,
+      record2,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }

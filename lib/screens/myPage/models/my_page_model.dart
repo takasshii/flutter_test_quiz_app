@@ -1,27 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/domain/userGet.dart';
+import 'package:flutter_test_takashii/domain/user_get.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MyPageModel extends ChangeNotifier {
-  //初期化
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //userのuidを取得
-  final user_uid = FirebaseAuth.instance.currentUser!.uid;
-
   //取得したデータの格納用
   UserGet? userDetailList;
 
   void fetchUserList() async {
-    final snapShot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user_uid)
-        .get();
+    const databaseName = 'your_database.db';
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, databaseName);
 
-    final String name = snapShot.get('name');
-    final int? grade = snapShot.get('grade');
-    final bool graduation = snapShot.get('graduation');
-    final bool open = snapShot.get('open');
+    Database database = await openDatabase(path, version: 1);
+
+    final db = await database;
+    const String insertSql = 'SELECT * FROM User';
+    final List<Map<String, dynamic>> map = await db.rawQuery(insertSql);
+
+    final String name = map[0]['name'];
+    final int? grade = map[0]['grade'];
+    bool graduation = false;
+    if (map[0]['graduation'] == 1) {
+      graduation = true;
+    }
+    bool open = true;
+    if (map[0]['open'] == 0) {
+      open = false;
+    }
     this.userDetailList = UserGet(name, grade, graduation, open);
     notifyListeners();
   }
