@@ -84,9 +84,11 @@ class SomeFunctionBigButton extends StatelessWidget {
               Container(
                   padding: EdgeInsets.only(right: kDefaultPadding),
                   child: icon),
-              Text(
-                "${title}",
-                style: TextStyle(fontSize: 16, color: kBlackColor),
+              Expanded(
+                child: Text(
+                  "${title}",
+                  style: TextStyle(fontSize: 16, color: kBlackColor),
+                ),
               ),
             ],
           ),
