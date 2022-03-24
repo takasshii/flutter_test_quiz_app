@@ -13,7 +13,8 @@ class ReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PageController pageController = PageController();
+    final PageController pageController =
+        PageController(initialPage: initialIndex);
     final pastPaperList = [
       "105回",
       "104回",
