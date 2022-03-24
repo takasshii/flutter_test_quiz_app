@@ -28,7 +28,11 @@ class MyPageModel extends ChangeNotifier {
     if (map[0]['open'] == 0) {
       open = false;
     }
-    this.userDetailList = UserGet(name, grade, graduation, open);
+    String image = "assets/images/エジプト神（イヌ型）.png";
+    if (map[0]['image'] != null) {
+      image = map[0]['image'];
+    }
+    this.userDetailList = UserGet(name, grade, graduation, open, image);
     notifyListeners();
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
 
 import '../../../constants.dart';
-import 'buildShowModalBottomSheet.dart';
+import '../setting/components/buildShowModalBottomSheet.dart';
 
 class IconWithName extends StatelessWidget {
   const IconWithName({Key? key, required this.user}) : super(key: key);

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/controllers/continuous_days_update_controller.dart';
+import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/welcome/welcome_screen.dart';
 import 'package:flutter_test_takashii/signUp/sign_up_model.dart';
 import 'package:provider/provider.dart';
@@ -37,42 +38,52 @@ class RootPage extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<SignUpModel>(create: (_) => SignUpModel()),
         ChangeNotifierProvider<ContinuousDaysUpdate>(
-            create: (_) => ContinuousDaysUpdate()..fetchLearningDataList()),
+            create: (_) => ContinuousDaysUpdate()),
       ],
       child: Consumer<SignUpModel>(builder: (
         context,
         model,
         child,
       ) {
+        final learningDataModel = Provider.of<ContinuousDaysUpdate>(context);
+        final LearningDataGet? learningData =
+            learningDataModel.learningDateList;
+        final UserGet? userGet = learningDataModel.userDetailList;
         //アカウントがない場合は作成
-        if (currentUser == null) {
+        if (currentUser == null || learningData == null || userGet == null) {
           model.login(currentUser);
           FirebaseAuth.instance.userChanges().listen((User? user) {
             if (user != null) {
               model.userCreate();
               model.userLocalCreate();
+              //データを取得
+              learningDataModel..fetchLearningDataList();
+              learningDataModel..fetchUserList();
             }
           });
-          return WelcomeScreen();
+          if (learningData != null && userGet != null) {
+            return WelcomeScreen();
+          }
           //アカウントがある場合は、ログイン処理と学習日数の更新を行う。
-        }
-        return Consumer<ContinuousDaysUpdate>(builder: (
-          context,
-          model,
-          child,
-        ) {
-          final LearningDataGet? learningData = model.learningDateList;
+        } else {
+          //データを取得
+          learningDataModel.fetchLearningDataList();
+          learningDataModel.fetchUserList();
+
           if (learningData == null) {
+            //エラー画面にしたい
             return Center(child: CircularProgressIndicator());
           }
           //ログインの日程が異なる場合のみトリガーが発動
           final bool isSameDay =
-              learningData.updatedAt.difference(DateTime.now()).inDays != 0;
+              learningData.updatedAt.difference(DateTime.now()).inDays == 0;
+
           if (isSameDay == false) {
-            model.UpdateContinuousDaysUpdate(learningData);
+            learningDataModel.UpdateContinuousDaysUpdate(learningData);
           }
           return WelcomeScreen();
-        });
+        }
+        return Center(child: CircularProgressIndicator());
       }),
     );
   }

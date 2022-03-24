@@ -15,7 +15,7 @@ class SignUpModel extends ChangeNotifier {
     }
   }
 
-  Future<void> userCreate() async {
+  void userCreate() async {
     //初期化
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     //userのuidを取得
@@ -49,6 +49,7 @@ class SignUpModel extends ChangeNotifier {
       'grade': null,
       'open': true,
       'graduation': false,
+      'image': "assets/images/エジプト神（イヌ型）.png",
       'total_time': 0,
       'today_time': 0,
       'createdAt': FieldValue.serverTimestamp(),
@@ -68,16 +69,16 @@ class SignUpModel extends ChangeNotifier {
     String path = join(databasesPath, databaseName);
 
     const String createUserSql =
-        'CREATE TABLE User(uid TEXT, name TEXT, grade INTEGER, open INTEGER, graduation INTEGER)';
+        'CREATE TABLE User(uid TEXT, name TEXT, grade INTEGER, open INTEGER, graduation INTEGER, image TEXT)';
     const String createLearningDataSql =
         'CREATE TABLE LearningData(id INTEGER PRIMARY KEY AUTOINCREMENT, currentContinuousRecord INTEGER, continuousRecord INTEGER, totalDay INTEGER, todayTime INTEGER, totalQuestion INTEGER, learnedQuestion INTEGER, totalLearningTime INTEGER, createdAt, INTEGER, updatedAt INTEGER)';
     WidgetsFlutterBinding.ensureInitialized();
     // Open or connect database
     Database database = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
+        onCreate: (Database db, int version) {
       // When creating the db, create the table
-      await db.execute(createUserSql);
-      await db.execute(createLearningDataSql);
+      db.execute(createUserSql);
+      db.execute(createLearningDataSql);
     });
 
     final db = await database;
@@ -88,6 +89,7 @@ class SignUpModel extends ChangeNotifier {
       'grade': 0,
       'open': 1,
       'graduation': 0,
+      'image': "assets/images/エジプト神（イヌ型）.png"
     };
 
     await db.insert(
