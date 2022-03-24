@@ -10,26 +10,32 @@ class ReviewScreen extends StatelessWidget {
   const ReviewScreen({Key? key, required this.initialIndex}) : super(key: key);
 
   final int initialIndex;
+
   @override
   Widget build(BuildContext context) {
+    final PageController pageController = PageController();
+    final pastPaperList = [
+      "105回",
+      "104回",
+      "103回",
+      "102回",
+      "101回",
+      "2022",
+      "2022",
+      "2022",
+      "2022",
+      "2022"
+    ];
     return Scaffold(
-      body: DefaultTabController(
-        length: 10,
-        initialIndex: initialIndex,
-        child: TabBarView(
-          children: [
-            BuildReviewScreen(title: "105回"),
-            BuildReviewScreen(title: "104回"),
-            BuildReviewScreen(title: "103回"),
-            BuildReviewScreen(title: "102回"),
-            BuildReviewScreen(title: "101回"),
-            BuildReviewScreen(title: "100回"),
-            BuildReviewScreen(title: "105回"),
-            BuildReviewScreen(title: "105回"),
-            BuildReviewScreen(title: "105回"),
-            BuildReviewScreen(title: "105回"),
-          ],
-        ),
+      body: PageView.builder(
+        controller: pageController,
+        itemCount: pastPaperList.length,
+        itemBuilder: (context, index) => (BuildReviewScreen(
+          title: pastPaperList[index],
+          pageController: pageController,
+          paperLength: pastPaperList.length,
+          index: index,
+        )),
       ),
       bottomNavigationBar: BuildBottomNavigationBar(),
     );
@@ -37,9 +43,19 @@ class ReviewScreen extends StatelessWidget {
 }
 
 class BuildReviewScreen extends StatelessWidget {
-  const BuildReviewScreen({Key? key, required this.title}) : super(key: key);
+  const BuildReviewScreen(
+      {Key? key,
+      required this.title,
+      required this.pageController,
+      required this.paperLength,
+      required this.index})
+      : super(key: key);
 
+  final int index;
   final String title;
+  final PageController pageController;
+  final int paperLength;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,7 +65,11 @@ class BuildReviewScreen extends StatelessWidget {
         width: size.width - 40,
         child: Column(
           children: [
-            TitleWithTwoIcon(title: title),
+            TitleWithTwoIcon(
+                title: title,
+                pageController: pageController,
+                paperLength: paperLength,
+                index: index),
             PieChartSample2(),
             ReviewTwoMiddleButton(),
           ],
