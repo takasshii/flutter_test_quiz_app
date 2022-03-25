@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class TitleOfBooks extends StatelessWidget {
-  const TitleOfBooks({Key? key, required this.title, required this.icon_left})
+  const TitleOfBooks(
+      {Key? key,
+      required this.title,
+      required this.icon_left,
+      required this.press})
       : super(key: key);
 
   final String title;
   final Icon icon_left;
+  final void Function() press;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +24,15 @@ class TitleOfBooks extends StatelessWidget {
           icon_left,
           TitleWithCustomUnderline(text: title),
           Spacer(),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: kGrayColor,
+          Container(
+            height: 24,
+            width: 24,
+            child: IconButton(
+              padding: EdgeInsets.all(0),
+              onPressed: press,
+              icon: Icon(Icons.chevron_right_rounded),
+              color: kGrayColor,
+            ),
           ),
         ],
       ),

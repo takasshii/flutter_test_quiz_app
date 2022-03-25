@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/screens/myPage/setting/components/title_with_close_icon.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/models/setting_image.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,7 @@ class BuildShowModalBottomSheet extends StatelessWidget {
         child: Consumer<ImageUpdate>(builder: (context, model, child) {
           return Column(
             children: [
-              TitleWithCloseIcon(),
+              TitleWithCloseIcon(title: "アイコン変更"),
               SelectIconWithName(
                 title: "エジプト神（イヌ型）",
                 image: "assets/images/エジプト神（イヌ型）.png",
@@ -62,38 +63,6 @@ class BuildShowModalBottomSheet extends StatelessWidget {
           );
         }),
       ),
-    );
-  }
-}
-
-class TitleWithCloseIcon extends StatelessWidget {
-  const TitleWithCloseIcon({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: kDefaultPadding / 2, vertical: kDefaultPadding / 2),
-          child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(
-                Icons.close,
-                color: kGrayColor,
-              )),
-        ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-          child: Text(
-            "アイコン変更",
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 16, color: kBlackColor),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/bottom_navigation_controller.dart';
+import 'package:flutter_test_takashii/screens/books/book_list_vertical/book_list_past_paper_vertical.dart';
 import 'package:flutter_test_takashii/screens/books/components/search_box.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/review/review_screen.dart';
@@ -31,6 +32,13 @@ class BookList extends StatelessWidget {
                 Icons.book_outlined,
                 color: kPrimaryColor,
               ),
+              press: () async {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookListPastPaperVertical(),
+                    ));
+              },
             ),
             //上と揃えるために導入
             Padding(
@@ -46,7 +54,6 @@ class BookList extends StatelessWidget {
                         country: "JP",
                         price: 0,
                         press: () async {
-                          selectedIndex = 1;
                           await Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -106,6 +113,13 @@ class BookList extends StatelessWidget {
                 Icons.library_add_check_outlined,
                 color: kPrimaryColor,
               ),
+              press: () async {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookListPastPaperVertical(),
+                    ));
+              },
             ),
             Padding(
               padding: EdgeInsets.only(
