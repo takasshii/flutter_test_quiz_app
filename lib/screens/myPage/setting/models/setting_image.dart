@@ -42,4 +42,6 @@ class ImageUpdate extends ChangeNotifier {
       record,
     );
   }
+
+  notifyListeners();
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
+import 'package:flutter_test_takashii/screens/myPage/models/my_page_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../setting/components/buildShowModalBottomSheet.dart';
@@ -11,21 +13,24 @@ class IconWithName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myPageModel = Provider.of<MyPageModel>(context);
     Size size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () {
-            showModalBottomSheet(
-                //モーダルの背景の色、透過
-                backgroundColor: Colors.transparent,
-                //ドラッグ可能にする（高さもハーフサイズからフルサイズになる様子）
-                isScrollControlled: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return BuildShowModalBottomSheet();
-                });
+          onTap: () async {
+            await showModalBottomSheet(
+                    //モーダルの背景の色、透過
+                    backgroundColor: Colors.transparent,
+                    //ドラッグ可能にする（高さもハーフサイズからフルサイズになる様子）
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return BuildShowModalBottomSheet();
+                    })
+                .then((value) =>
+                    value != null ? myPageModel.fetchUserList() : print(""));
           },
           child: Container(
             margin: EdgeInsets.only(
@@ -39,7 +44,7 @@ class IconWithName extends StatelessWidget {
             width: size.width * 0.2,
             height: size.width * 0.2,
             child: Image.asset(
-              "assets/images/エジプト神（イヌ型）.png",
+              "${user.image}",
               fit: BoxFit.contain,
             ),
           ),

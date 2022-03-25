@@ -33,6 +33,7 @@ class MyPageModel extends ChangeNotifier {
       image = map[0]['image'];
     }
     this.userDetailList = UserGet(name, grade, graduation, open, image);
+    print("${userDetailList?.image}");
     notifyListeners();
   }
 }

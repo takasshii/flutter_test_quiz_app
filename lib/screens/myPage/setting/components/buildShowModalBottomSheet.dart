@@ -31,7 +31,7 @@ class BuildShowModalBottomSheet extends StatelessWidget {
                 image: "assets/images/エジプト神（イヌ型）.png",
                 press: () {
                   model.imageUpdate("assets/images/エジプト神（イヌ型）.png");
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
               SelectIconWithName(
@@ -39,7 +39,7 @@ class BuildShowModalBottomSheet extends StatelessWidget {
                 image: "assets/images/エジプト神（トリ型）.png",
                 press: () {
                   model.imageUpdate("assets/images/エジプト神（トリ型）.png");
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
               SelectIconWithName(
@@ -47,7 +47,7 @@ class BuildShowModalBottomSheet extends StatelessWidget {
                 image: "assets/images/エジプト神（ヒト型）.png",
                 press: () {
                   model.imageUpdate("assets/images/エジプト神（ヒト型）.png");
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
               SelectIconWithName(
@@ -55,7 +55,7 @@ class BuildShowModalBottomSheet extends StatelessWidget {
                 image: "assets/images/ピラミッド.png",
                 press: () {
                   model.imageUpdate("assets/images/ピラミッド.png");
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
             ],

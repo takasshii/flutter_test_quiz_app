@@ -20,14 +20,13 @@ class BuildOutlinedButton extends StatelessWidget {
         width: 100,
         child: ElevatedButton(
           onPressed: model.isUpdated()
-              ? () {
+              ? () async {
                   try {
                     model.userUpdate();
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => (MyPageScreen()),
-                      ),
-                    );
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => (MyPageScreen())));
                     final snackBar = SnackBar(
                         backgroundColor: Colors.lightGreen,
                         content: Text("更新が完了しました"));
