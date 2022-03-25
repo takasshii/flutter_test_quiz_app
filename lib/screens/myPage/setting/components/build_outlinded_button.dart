@@ -14,7 +14,7 @@ class BuildOutlinedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = Provider.of<SettingModel>(context, listen: false);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: kDefaultPadding),
+      padding: EdgeInsets.symmetric(vertical: kDefaultPadding * 2),
       child: SizedBox(
         height: 40,
         width: 100,
@@ -51,7 +51,7 @@ class BuildOutlinedButton extends StatelessWidget {
             onPrimary: kGrayColor,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(4),
             ),
             side: BorderSide(color: kGrayColor),
           ),

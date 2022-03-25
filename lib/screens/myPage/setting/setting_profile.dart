@@ -111,7 +111,10 @@ class EditName extends StatelessWidget {
     return Expanded(
       child: Container(
         height: 50,
-        padding: EdgeInsets.only(top: kDefaultPadding / 2),
+        padding: EdgeInsets.only(
+            top: kDefaultPadding / 2,
+            left: kDefaultPadding,
+            right: kDefaultPadding),
         child: TextFormField(
           controller: model.nameController,
           onChanged: (text) {
@@ -130,9 +133,7 @@ class EditName extends StatelessWidget {
             labelStyle: TextStyle(
               color: kBlackColor,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            border: UnderlineInputBorder(),
           ),
         ),
       ),
