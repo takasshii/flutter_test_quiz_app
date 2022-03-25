@@ -5,6 +5,7 @@ import 'package:flutter_test_takashii/screens/myPage/notification/notification_p
 import 'package:flutter_test_takashii/screens/myPage/policy/policy_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../constants.dart';
 
 class FiveBigButton extends StatelessWidget {
@@ -63,12 +64,12 @@ class FiveBigButton extends StatelessWidget {
           press: notification,
         ),
         SomeFunctionBigButton(
-          title: "よくある質問",
+          title: "よくある質問・使い方",
           icon: Icon(Icons.contact_support),
           press: question,
         ),
         SomeFunctionBigButton(
-          title: "お問い合わせ",
+          title: "お問い合わせ・開発者に連絡",
           icon: Icon(Icons.call),
           press: askUs,
         ),

@@ -76,7 +76,7 @@ class RootPage extends StatelessWidget {
           }
           //ログインの日程が異なる場合のみトリガーが発動
           final bool isSameDay =
-              learningData.updatedAt.difference(DateTime.now()).inDays == 0;
+              learningData.loginAt.difference(DateTime.now()).inDays == 0;
 
           if (isSameDay == false) {
             learningDataModel.UpdateContinuousDaysUpdate(learningData);

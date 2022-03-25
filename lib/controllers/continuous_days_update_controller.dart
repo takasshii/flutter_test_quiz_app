@@ -27,6 +27,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
     final int totalQuestion = map[0]['totalQuestion'];
     final int learnedQuestion = map[0]['learnedQuestion'];
     final int totalLearningTime = map[0]['totalLearningTime'];
+    final DateTime loginAt = DateTime.parse(map[0]['loginAt']).toLocal();
     final DateTime createdAt = DateTime.parse(map[0]['createdAt']).toLocal();
     final DateTime updatedAt = DateTime.parse(map[0]['updatedAt']).toLocal();
     this.learningDateList = LearningDataGet(
@@ -37,6 +38,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
         totalQuestion,
         learnedQuestion,
         totalLearningTime,
+        loginAt,
         createdAt,
         updatedAt);
     notifyListeners();
@@ -88,7 +90,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
     int continuousRecord = learningDateList.continuousRecord;
 
     //現在の連続日数の更新
-    if (learningDateList.updatedAt.difference(DateTime.now()).inDays == 1) {
+    if (learningDateList.loginAt.difference(DateTime.now()).inDays == 1) {
       currentContinuousRecord++;
       //最長連続日数の更新
       if (currentContinuousRecord > continuousRecord) {
@@ -99,6 +101,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
       'totalDay': totalDay,
       'currentContinuousRecord': currentContinuousRecord,
       'continuousRecord': continuousRecord,
+      'loginAt': DateTime.now().toUtc().toIso8601String(),
       'updatedAt': DateTime.now().toUtc().toIso8601String(),
     };
 

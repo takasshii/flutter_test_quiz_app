@@ -70,6 +70,7 @@ class QuestionController extends ChangeNotifier {
     final int totalQuestion = map[0]['totalQuestion'];
     final int learnedQuestion = map[0]['learnedQuestion'];
     final int totalLearningTime = map[0]['totalLearningTime'];
+    final DateTime loginAt = DateTime.parse(map[0]['loginAt']).toLocal();
     final DateTime createdAt = DateTime.parse(map[0]['createdAt']).toLocal();
     final DateTime updatedAt = DateTime.parse(map[0]['updatedAt']).toLocal();
     this.learningDateList = LearningDataGet(
@@ -80,6 +81,7 @@ class QuestionController extends ChangeNotifier {
         totalQuestion,
         learnedQuestion,
         totalLearningTime,
+        loginAt,
         createdAt,
         updatedAt);
     notifyListeners();

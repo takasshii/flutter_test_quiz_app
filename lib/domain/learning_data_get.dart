@@ -7,6 +7,7 @@ class LearningDataGet {
       this.totalQuestion,
       this.learnedQuestion,
       this.totalLearningTime,
+      this.loginAt,
       this.createdAt,
       this.updatedAt);
   int currentContinuousRecord;
@@ -16,6 +17,7 @@ class LearningDataGet {
   int totalQuestion;
   int learnedQuestion;
   int totalLearningTime;
+  DateTime loginAt;
   DateTime createdAt;
   DateTime updatedAt;
 }

@@ -71,7 +71,7 @@ class SignUpModel extends ChangeNotifier {
     const String createUserSql =
         'CREATE TABLE User(uid TEXT, name TEXT, grade INTEGER, open INTEGER, graduation INTEGER, image TEXT)';
     const String createLearningDataSql =
-        'CREATE TABLE LearningData(id INTEGER PRIMARY KEY AUTOINCREMENT, currentContinuousRecord INTEGER, continuousRecord INTEGER, totalDay INTEGER, todayTime INTEGER, totalQuestion INTEGER, learnedQuestion INTEGER, totalLearningTime INTEGER, createdAt, INTEGER, updatedAt INTEGER)';
+        'CREATE TABLE LearningData(id INTEGER PRIMARY KEY AUTOINCREMENT, currentContinuousRecord INTEGER, continuousRecord INTEGER, totalDay INTEGER, todayTime INTEGER, totalQuestion INTEGER, learnedQuestion INTEGER, totalLearningTime INTEGER, loginAt INTEGER, createdAt, INTEGER, updatedAt INTEGER)';
     WidgetsFlutterBinding.ensureInitialized();
     // Open or connect database
     Database database = await openDatabase(path, version: 1,
@@ -107,6 +107,7 @@ class SignUpModel extends ChangeNotifier {
       'totalQuestion': 0,
       'learnedQuestion': 0,
       'totalLearningTime': 0,
+      'loginAt': DateTime.now().toUtc().toIso8601String(),
       'createdAt': DateTime.now().toUtc().toIso8601String(),
       'updatedAt': DateTime.now().toUtc().toIso8601String(),
     };
