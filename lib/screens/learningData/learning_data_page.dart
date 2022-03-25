@@ -23,6 +23,7 @@ class LearningDataPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.all(kDefaultPadding),
+              padding: EdgeInsets.only(top: kDefaultPadding),
               child: Consumer<LearningDataModel>(
                 builder: (context, model, child) {
                   final LearningDataGet? learningData = model.learningDateList;

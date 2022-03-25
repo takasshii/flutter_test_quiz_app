@@ -49,26 +49,41 @@ class IconWithName extends StatelessWidget {
             ),
           ),
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
+        Container(
+          height: size.width * 0.2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Spacer(),
+              RichText(
+                  text: TextSpan(
+                children: [
+                  TextSpan(
+                      text: "${user.name}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: kBlackColor)),
+                  TextSpan(
+                      text: " さん",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: kGrayColor)),
+                ],
+              )),
+              RichText(
                 text: TextSpan(
-                    text: "${user.name}さん",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: kBlackColor))),
-            RichText(
-              text: TextSpan(
-                text: user.grade == 0 ? "学年未設定" : "${user.grade}回生",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: kGrayColor),
+                  text: user.grade == 0 ? "学年未設定" : "${user.grade}回生",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: kGrayColor),
+                ),
               ),
-            ),
-          ],
+              Spacer(flex: 3),
+            ],
+          ),
         ),
       ],
     );
