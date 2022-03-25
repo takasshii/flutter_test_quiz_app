@@ -56,6 +56,9 @@ dependencies:
   #ローカルdb
   sqflite: ^2.0.2
 
+  #webページの表示
+  url_launcher: ^6.0.20
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

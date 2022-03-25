@@ -4,11 +4,11 @@ import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/policy/policy_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../../constants.dart';
 
-class FourBigButton extends StatelessWidget {
-  const FourBigButton({Key? key, required this.user}) : super(key: key);
+class FiveBigButton extends StatelessWidget {
+  const FiveBigButton({Key? key, required this.user}) : super(key: key);
 
   final UserGet user;
 
@@ -24,10 +24,28 @@ class FourBigButton extends StatelessWidget {
       await Navigator.push(context,
           MaterialPageRoute(builder: (context) => (NotificationPage())));
     };
-    void Function() askUs = () async {
+    void Function() question = () async {
       await Navigator.push(
           context, MaterialPageRoute(builder: (context) => (AskUsPage())));
     };
+
+    _launchInBrowser() async {
+      const url = 'https://twitter.com/takashiho_2';
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: false,
+        );
+      } else {
+        throw 'このURLにはアクセスできません';
+      }
+    }
+
+    void Function() askUs = () {
+      _launchInBrowser();
+    };
+
     void Function() UserPolicy = () async {
       await Navigator.push(
           context, MaterialPageRoute(builder: (context) => (PolicyPage())));
@@ -45,8 +63,13 @@ class FourBigButton extends StatelessWidget {
           press: notification,
         ),
         SomeFunctionBigButton(
-          title: "よくある質問・お問い合わせ",
+          title: "よくある質問",
           icon: Icon(Icons.contact_support),
+          press: question,
+        ),
+        SomeFunctionBigButton(
+          title: "お問い合わせ",
+          icon: Icon(Icons.call),
           press: askUs,
         ),
         SomeFunctionBigButton(

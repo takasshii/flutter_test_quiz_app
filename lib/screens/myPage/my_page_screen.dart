@@ -4,7 +4,7 @@ import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
-import 'componentes/four_big_button.dart';
+import 'componentes/five_big_button.dart';
 import 'componentes/icon_with_name.dart';
 import 'componentes/two_middle_button.dart';
 import 'models/my_page_model.dart';
@@ -41,7 +41,7 @@ class MyPageScreen extends StatelessWidget {
                 children: [
                   IconWithName(user: user),
                   TwoMiddleButton(),
-                  FourBigButton(user: user),
+                  FiveBigButton(user: user),
                 ],
               );
             }),
