@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test_takashii/domain/book_title_list.dart';
 
-class SearchBoxModel extends ChangeNotifier {
+class PastPaperListGet extends ChangeNotifier {
   List<PastPaperTitle> pastPaperTitle = [];
-  String? keywords;
-  final searchController = TextEditingController();
-  List<PastPaperTitle> searchedTitleList = [];
 
   void fetchTitleList() async {
     List<PastPaperTitle> _pastPaperTitle = await past_paper_title_list
@@ -20,18 +17,6 @@ class SearchBoxModel extends ChangeNotifier {
         )
         .toList();
     this.pastPaperTitle = _pastPaperTitle;
-    notifyListeners();
-  }
-
-  void setKeywords(String keywords) {
-    if (keywords.isNotEmpty) {
-      this.keywords = keywords;
-      this.searchedTitleList = pastPaperTitle
-          .where((element) => element.title.contains(keywords))
-          .toList();
-    } else {
-      this.searchedTitleList.clear();
-    }
     notifyListeners();
   }
 }

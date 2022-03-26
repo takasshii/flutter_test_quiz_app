@@ -45,7 +45,6 @@ class RecommendCard extends StatelessWidget {
             Container(
               //写真のサイズを固定
               width: size.width * 0.3,
-              height: size.width * 0.3,
               child: Image.asset(
                 image,
                 fit: BoxFit.contain,
