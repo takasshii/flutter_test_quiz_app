@@ -7,9 +7,13 @@ class SearchBoxModel extends ChangeNotifier {
   List searchedNames = [];
 
   void setKeywords(String keywords) {
-    this.keywords = keywords;
-    this.searchedNames =
-        nameList.where((element) => element.contains(keywords)).toList();
+    if (keywords.isNotEmpty) {
+      this.keywords = keywords;
+      this.searchedNames =
+          nameList.where((element) => element.contains(keywords)).toList();
+    } else {
+      this.searchedNames.clear();
+    }
     notifyListeners();
   }
 }

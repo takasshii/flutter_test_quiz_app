@@ -41,6 +41,9 @@ class SearchBoxFocused extends StatelessWidget {
                       controller: model.searchController,
                       autofocus: true,
                       onChanged: (text) {
+                        if (text.isEmpty) {
+                          model.searchedNames.clear();
+                        }
                         model.setKeywords(text.toString());
                       },
                       keyboardType: TextInputType.text,
