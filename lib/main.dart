@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/controllers/continuous_days_update_controller.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
+import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:flutter_test_takashii/screens/welcome/welcome_screen.dart';
 import 'package:flutter_test_takashii/signUp/sign_up_model.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +82,7 @@ class RootPage extends StatelessWidget {
           if (isSameDay == false) {
             learningDataModel.UpdateContinuousDaysUpdate(learningData);
           }
-          return WelcomeScreen();
+          return BookList();
         }
         return Center(child: CircularProgressIndicator());
       }),

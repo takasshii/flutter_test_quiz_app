@@ -34,5 +34,6 @@ class ConversationController extends ChangeNotifier {
     timeCheck();
     conversationFirst[conversationRange].shuffle();
     conversation = conversationFirst[conversationRange][0];
+    notifyListeners();
   }
 }

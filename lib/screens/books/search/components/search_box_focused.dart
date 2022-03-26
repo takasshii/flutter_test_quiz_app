@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test_takashii/screens/books/search/search_list_show.dart';
+import 'package:flutter_test_takashii/screens/books/search/model/search_box_model.dart';
+import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
+import '../../../../constants.dart';
 
-class SearchBox extends StatelessWidget {
-  const SearchBox({Key? key}) : super(key: key);
+class SearchBoxFocused extends StatelessWidget {
+  const SearchBoxFocused({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<SearchBoxModel>(context, listen: false);
     return Container(
       margin: EdgeInsets.only(bottom: kDefaultPadding * 0.5),
       child: Stack(
@@ -36,16 +38,10 @@ class SearchBox extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: TextFormField(
-                      onTap: () async {
-                        await Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return SearchListShow();
-                            },
-                            transitionDuration: Duration(seconds: 0),
-                          ),
-                        );
+                      controller: model.searchController,
+                      autofocus: true,
+                      onChanged: (text) {
+                        model.setKeywords(text.toString());
                       },
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
