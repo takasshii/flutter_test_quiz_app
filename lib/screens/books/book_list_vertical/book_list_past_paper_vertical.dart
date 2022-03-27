@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/controllers/bottom_navigation_controller.dart';
+import 'package:flutter_test_takashii/domain/book_title_list.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/review/review_screen.dart';
 
 import '../../../constants.dart';
 
 class BookListPastPaperVertical extends StatelessWidget {
-  const BookListPastPaperVertical({Key? key}) : super(key: key);
+  const BookListPastPaperVertical({Key? key, required this.pastPaperTitle})
+      : super(key: key);
+
+  final List<PastPaperTitle> pastPaperTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -22,67 +26,24 @@ class BookListPastPaperVertical extends StatelessWidget {
               fontWeight: FontWeight.bold, fontSize: 16, color: kBlackColor),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            BookImageWithName(
-                title: "105回",
-                image: "assets/images/ピンクのエイリアン.png",
+      body: ListView.builder(
+          shrinkWrap: true,
+          itemCount: pastPaperTitle.length,
+          itemBuilder: (BuildContext context, int index) {
+            return BookImageWithName(
+                title: pastPaperTitle[index].title,
+                image: pastPaperTitle[index].image,
                 press: () async {
                   selectedIndex = 1;
                   await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReviewScreen(initialIndex: 0),
-                      ));
-                }),
-            BookImageWithName(
-                title: "104回",
-                image: "assets/images/ピンクのエイリアン.png",
-                press: () async {
-                  selectedIndex = 1;
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReviewScreen(initialIndex: 1),
-                      ));
-                }),
-            BookImageWithName(
-                title: "103回",
-                image: "assets/images/ピンクのエイリアン.png",
-                press: () async {
-                  selectedIndex = 1;
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReviewScreen(initialIndex: 2),
-                      ));
-                }),
-            BookImageWithName(
-                title: "102回",
-                image: "assets/images/ピンクのエイリアン.png",
-                press: () async {
-                  selectedIndex = 1;
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReviewScreen(initialIndex: 3),
-                      ));
-                }),
-            BookImageWithName(
-                title: "101回",
-                image: "assets/images/ピンクのエイリアン.png",
-                press: () async {
-                  selectedIndex = 1;
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReviewScreen(initialIndex: 4),
-                      ));
-                }),
-          ],
-        ),
-      ),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReviewScreen(
+                          initialIndex: pastPaperTitle[index].initialIndex),
+                    ),
+                  );
+                });
+          }),
       bottomNavigationBar: BuildBottomNavigationBar(),
     );
   }

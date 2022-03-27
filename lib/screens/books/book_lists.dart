@@ -41,7 +41,8 @@ class BookList extends StatelessWidget {
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BookListPastPaperVertical(),
+                          builder: (context) => BookListPastPaperVertical(
+                              pastPaperTitle: model.pastPaperTitle),
                         ));
                   },
                 ),
@@ -83,7 +84,8 @@ class BookList extends StatelessWidget {
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => BookListPastPaperVertical(),
+                          builder: (context) => BookListPastPaperVertical(
+                              pastPaperTitle: model.pastPaperTitle),
                         ));
                   },
                 ),
