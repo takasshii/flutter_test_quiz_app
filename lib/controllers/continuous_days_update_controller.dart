@@ -90,7 +90,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
     int continuousRecord = learningDateList.continuousRecord;
 
     //現在の連続日数の更新
-    if (learningDateList.loginAt.difference(DateTime.now()).inDays == 1) {
+    if (DateTime.now().day - learningDateList.loginAt.day == 1) {
       currentContinuousRecord++;
       //最長連続日数の更新
       if (currentContinuousRecord > continuousRecord) {

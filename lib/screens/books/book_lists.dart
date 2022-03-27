@@ -87,72 +87,32 @@ class BookList extends StatelessWidget {
                         ));
                   },
                 ),
-                Padding(
+                Container(
+                  height: size.width * 0.55,
                   padding: EdgeInsets.only(
                       left: kDefaultPadding, top: kDefaultPadding / 2),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        RecommendCard(
-                            image: "assets/images/エジプト神（イヌ型）.png",
-                            title: "2021",
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: model.pastPaperTitle.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return RecommendCard(
+                            image: model.pastPaperTitle[index].image,
+                            title: model.pastPaperTitle[index].title,
                             country: "JP",
-                            price: 200,
+                            price: 0,
                             press: () async {
                               selectedIndex = 1;
                               await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ReviewScreen(initialIndex: 4),
-                                  ));
-                            }),
-                        RecommendCard(
-                            image: "assets/images/エジプト神（トリ型）.png",
-                            title: "2021",
-                            country: "JP",
-                            price: 200,
-                            press: () async {
-                              selectedIndex = 1;
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ReviewScreen(initialIndex: 5),
-                                  ));
-                            }),
-                        RecommendCard(
-                            image: "assets/images/エジプト神（ヒト型）.png",
-                            title: "2021",
-                            country: "JP",
-                            price: 200,
-                            press: () async {
-                              selectedIndex = 1;
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ReviewScreen(initialIndex: 6),
-                                  ));
-                            }),
-                        RecommendCard(
-                            image: "assets/images/ピラミッド.png",
-                            title: "2021",
-                            country: "JP",
-                            price: 200,
-                            press: () async {
-                              selectedIndex = 1;
-                              await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ReviewScreen(initialIndex: 7),
-                                  ));
-                            }),
-                      ],
-                    ),
-                  ),
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ReviewScreen(
+                                      initialIndex: model
+                                          .pastPaperTitle[index].initialIndex),
+                                ),
+                              );
+                            });
+                      }),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

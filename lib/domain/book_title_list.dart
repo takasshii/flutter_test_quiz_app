@@ -15,42 +15,42 @@ class PastPaperTitle {
 
 const List past_paper_title_list = [
   {
-    "title": "105",
+    "title": "105回",
     "tag": null,
     "sort": "過去問",
     "image": "assets/images/ピンクのエイリアン.png",
     "initialIndex": 0,
   },
   {
-    "title": "104",
+    "title": "104回",
     "tag": null,
     "sort": "過去問",
     "image": "assets/images/紫のエイリアン.png",
     "initialIndex": 1,
   },
   {
-    "title": "102",
+    "title": "103回",
     "tag": null,
     "sort": "過去問",
     "image": "assets/images/緑のエイリアン.png",
     "initialIndex": 2,
   },
   {
-    "title": "101",
+    "title": "102回",
     "tag": null,
     "sort": "過去問",
     "image": "assets/images/黄色のエイリアン.png",
     "initialIndex": 3,
   },
   {
-    "title": "2022",
+    "title": "101回",
     "tag": null,
     "sort": "分野別",
     "image": "assets/images/エジプト神（イヌ型）.png",
     "initialIndex": 4,
   },
   {
-    "title": "2022",
+    "title": "2022年",
     "tag": null,
     "sort": "分野別",
     "image": "assets/images/エジプト神（トリ型）.png",
