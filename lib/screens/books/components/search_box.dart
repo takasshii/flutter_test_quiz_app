@@ -37,6 +37,9 @@ class SearchBox extends StatelessWidget {
                   Expanded(
                     child: TextFormField(
                       onTap: () async {
+                        //フォーカスを外す
+                        FocusScope.of(context).unfocus();
+                        //検索画面に0秒で移行する
                         await Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:

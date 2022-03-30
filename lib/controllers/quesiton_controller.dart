@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/learning_data_get.dart';
 import 'package:flutter_test_takashii/models/Questions.dart';
@@ -123,6 +125,29 @@ class QuestionController extends ChangeNotifier {
       tableName,
       record,
     );
+
+    //Publicのアップデート
+    imageUpdate(todayTime, totalLearningTime);
+  }
+
+  //Publicの学習時間のアップデート
+  Future<void> imageUpdate(int todayTime, int totalLearningTime) async {
+    //初期化
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    //userのuidを取得
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final user_uid = _auth.currentUser!.uid;
+
+    //public-profileのreferenceを取得
+    var publicUserReference =
+        firestore.collection('public-profiles').doc(user_uid);
+
+    publicUserReference.update({
+      'today_time': todayTime,
+      'total_time': totalLearningTime,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
   }
 
   void fetchQuestionList() async {

@@ -33,14 +33,13 @@ class MyPageScreen extends StatelessWidget {
             margin: EdgeInsets.all(kDefaultPadding),
             child: Consumer<MyPageModel>(builder: (context, model, child) {
               final UserGet? user = model.userDetailList;
-              print("${user?.image}");
               if (user == null) {
                 return Center(child: CircularProgressIndicator());
               }
               return Column(
                 children: [
                   IconWithName(user: user),
-                  TwoMiddleButton(),
+                  TwoMiddleButton(user: user),
                   FiveBigButton(user: user),
                 ],
               );

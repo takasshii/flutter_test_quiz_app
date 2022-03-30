@@ -66,8 +66,11 @@ class QuestionCard extends StatelessWidget {
                   if (model.learningDateList != null) {
                     model.stopStopWatch();
                     //データの更新
+                    //learningData
                     model.UpdateContinuousDaysUpdate(
                         questionLength, QuestionController.numberCorrectAns);
+                    //public
+
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
