@@ -10,7 +10,6 @@ class SearchBoxFocused extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<SearchBoxModel>(context, listen: false);
-    Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.only(
           bottom: kDefaultPadding / 2, right: kDefaultPadding / 2),
@@ -71,16 +70,17 @@ class SearchBoxFocused extends StatelessWidget {
           ),
           Column(
             children: [
-              Spacer(flex: 10),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'キャンセル',
-                    style: TextStyle(fontSize: 14, color: kBlackColor),
-                  )),
-              Spacer(),
+              Spacer(flex: 8),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'キャンセル',
+                  style: TextStyle(fontSize: 14, color: kBlackColor),
+                ),
+              ),
+              Spacer(flex: 3),
             ],
           ),
         ],
