@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/domain/notification_long.dart';
 
 class NotificationModel extends ChangeNotifier {
@@ -24,9 +25,18 @@ class NotificationModel extends ChangeNotifier {
       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
       final String title = data['title'];
       final String content = data['content'];
+      final String tag = data['tag'];
+      Color color = kPrimaryColor;
+      if (tag == "インフォメーション") {
+        color = Colors.pinkAccent;
+      } else if (tag == "イベント") {
+        color = Colors.redAccent;
+      } else if (tag == "不具合") {
+        color = Colors.blueAccent;
+      }
       final Timestamp createdAt = data["createdAt"];
       final Timestamp updatedAt = data["updatedAt"];
-      return NotificationLong(title, content, createdAt, updatedAt);
+      return NotificationLong(title, content, tag, color, createdAt, updatedAt);
     }).toList();
     this.notifications = lists;
     notifyListeners();

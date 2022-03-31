@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/notification_long.dart';
+import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/model/notification_model.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_detail.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ class NotificationPage extends StatelessWidget {
     return ChangeNotifierProvider<NotificationModel>(
       create: (_) => NotificationModel()..fetchNotificationList(),
       child: Scaffold(
+        backgroundColor: kBackGroundColor.withOpacity(0.97),
         appBar: AppBar(
           elevation: 1.0,
           toolbarHeight: 50,
@@ -34,12 +36,21 @@ class NotificationPage extends StatelessWidget {
             final List<Widget> widgets = notifications
                 .map(
                   (notification) => Container(
-                    margin: EdgeInsets.all(kDefaultPadding),
-                    padding:
-                        EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                    margin: EdgeInsets.symmetric(horizontal:kDefaultPadding, vertical: kDefaultPadding/2),
+                    padding: EdgeInsets.symmetric(
+                        vertical: kDefaultPadding / 2,
+                        horizontal: kDefaultPadding / 3),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.black.withOpacity(0.7)),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 10),
+                          blurRadius: 4,
+                          color: kGrayColor.withOpacity(0.23),
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                     child: ListTile(
                       onTap: () async {
                         await Navigator.push(
@@ -50,81 +61,87 @@ class NotificationPage extends StatelessWidget {
                           ),
                         );
                       },
-                      title: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: kDefaultPadding / 3),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: notification.color,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: kDefaultPadding / 2),
+                                child: Text(
+                                  "${notification.tag}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Text(
+                                      '更新日',
+                                      style: TextStyle(
+                                          fontSize: 10, color: kGrayColor),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${notification.updatedAt.toDate().year}-${notification.updatedAt.toDate().month}-${notification.updatedAt.toDate().day}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: kBlackColor,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right_rounded,
+                                    color: kGrayColor,
+                                    size: 32,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: kDefaultPadding / 3),
+                            child: Text(
                               notification.title,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: kBlackColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: Text(
-                                    '更新日',
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.white),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                Text(
-                                  "${notification.updatedAt.toDate().year}-${notification.updatedAt.toDate().month}-${notification.updatedAt.toDate().day}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: Colors.deepOrangeAccent
-                                        .withOpacity(0.9),
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: Color(0x98FFFFFF),
-                                  size: 32,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(
-                            left: kDefaultPadding / 3,
-                            top: 4,
-                            right: kDefaultPadding / 3),
-                        child: Text(
-                          notification.content,
-                          style: TextStyle(
-                            color: kLogoBackGroundColor,
-                            fontSize: 14,
                           ),
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        ],
                       ),
                     ),
                   ),
                 )
                 .toList();
-
             return ListView(
               padding: EdgeInsets.only(top: 10),
               children: widgets,
             );
           }),
         ),
+        bottomNavigationBar: BuildBottomNavigationBar(),
       ),
     );
   }
