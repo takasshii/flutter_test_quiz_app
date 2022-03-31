@@ -59,7 +59,7 @@ class SignUpModel extends ChangeNotifier {
     //publicの内容をbatchに保存する
     batch.set(publicUserReference, publicUserWrite);
     //書き込む
-    batch.commit();
+    await batch.commit();
   }
 
   //ローカルに書き込む

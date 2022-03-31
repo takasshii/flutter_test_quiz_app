@@ -22,7 +22,7 @@ class SearchListShow extends StatelessWidget {
             toolbarHeight: 70,
             backgroundColor: kBackGroundColor,
             flexibleSpace: SearchBoxFocused(),
-            automaticallyImplyLeading: true,
+            automaticallyImplyLeading: false,
           ),
           body: ListView.builder(
             itemCount: model.searchedTitleList.length,

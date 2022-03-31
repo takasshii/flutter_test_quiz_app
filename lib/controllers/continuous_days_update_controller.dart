@@ -109,5 +109,6 @@ class ContinuousDaysUpdate extends ChangeNotifier {
       tableName,
       record,
     );
+    notifyListeners();
   }
 }
