@@ -84,6 +84,7 @@ class SettingModel extends ChangeNotifier {
     //public-profileのreferenceを取得
     var publicUserReference =
         firestore.collection('public-profiles').doc(user_uid);
+    print(user_uid);
 
     var publicUserWrite = {
       'name': name,

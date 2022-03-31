@@ -58,7 +58,6 @@ class RankingModel extends ChangeNotifier {
     }).toList();
     this.rankingTodayAllTop10 = lists3;
 
-    print('きてるで');
     notifyListeners();
   }
 

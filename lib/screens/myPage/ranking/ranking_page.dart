@@ -32,19 +32,26 @@ class RankingPage extends StatelessWidget {
                   color: kBlackColor),
             ),
             bottom: const TabBar(
+              indicatorColor: kPrimaryColor,
               tabs: <Widget>[
                 Tab(
-                    icon: Icon(
-                  Icons.cloud_outlined,
-                  color: kBlackColor,
-                  size: 18,
-                )),
+                  child: const Text(
+                    '総合',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: kBlackColor),
+                  ),
+                ),
                 Tab(
-                    icon: Icon(
-                  Icons.brightness_5_sharp,
-                  color: kBlackColor,
-                  size: 18,
-                )),
+                  child: const Text(
+                    '1日',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: kBlackColor),
+                  ),
+                ),
               ],
             ),
           ),
@@ -58,8 +65,10 @@ class RankingPage extends StatelessWidget {
             }
             return TabBarView(
               children: <Widget>[
-                RankingList(rankingTop10: rankingTotalAllTop10),
-                RankingList(rankingTop10: rankingTodayAllTop10),
+                RankingList(
+                    rankingTop10: rankingTotalAllTop10, dataName: 'totalTime'),
+                RankingList(
+                    rankingTop10: rankingTodayAllTop10, dataName: 'todayTime'),
               ],
             );
           }),
@@ -71,9 +80,12 @@ class RankingPage extends StatelessWidget {
 }
 
 class RankingList extends StatelessWidget {
-  const RankingList({Key? key, required this.rankingTop10}) : super(key: key);
+  const RankingList(
+      {Key? key, required this.rankingTop10, required this.dataName})
+      : super(key: key);
 
   final List<RankingDataGet> rankingTop10;
+  final String dataName;
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +94,29 @@ class RankingList extends StatelessWidget {
         itemCount: rankingTop10.length,
         itemBuilder: (BuildContext context, int index) {
           return BookImageWithName(
-              title: rankingTop10[index].name,
-              image: rankingTop10[index].image,
-              press: () {});
+            ranking: '${index + 1}',
+            data: dataName != 'totalTime'
+                ? rankingTop10[index].totalTime
+                : rankingTop10[index].todayTime,
+            user: rankingTop10[index],
+            press: () {},
+          );
         });
   }
 }
 
 class BookImageWithName extends StatelessWidget {
   const BookImageWithName(
-      {Key? key, required this.title, required this.image, required this.press})
+      {Key? key,
+      required this.user,
+      required this.press,
+      required this.ranking,
+      required this.data})
       : super(key: key);
 
-  final String title;
-  final String image;
+  final String ranking;
+  final RankingDataGet user;
+  final int data;
   final void Function() press;
 
   @override
@@ -104,7 +125,6 @@ class BookImageWithName extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
         padding: EdgeInsets.symmetric(
             vertical: kDefaultPadding / 8, horizontal: kDefaultPadding),
         decoration: BoxDecoration(
@@ -113,23 +133,132 @@ class BookImageWithName extends StatelessWidget {
         ),
         child: Row(
           children: [
+            RichText(
+              text: TextSpan(
+                  text: ranking,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: kBlackColor)),
+            ),
             Container(
-              padding: EdgeInsets.only(right: kDefaultPadding),
+              padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
               //写真のサイズを固定
-              width: size.width * 0.2,
-              height: size.width * 0.2,
+              width: size.width * 0.23,
+              height: size.width * 0.23,
               child: Image.asset(
-                "${image}",
+                "${user.image}",
                 fit: BoxFit.contain,
               ),
             ),
-            RichText(
-              text: TextSpan(
-                  text: title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: kBlackColor)),
+            Container(
+              height: size.width * 0.23,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Spacer(),
+                  RichText(
+                      text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: "${user.name}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: kBlackColor)),
+                      TextSpan(
+                          text: " さん",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: kGrayColor)),
+                    ],
+                  )),
+                  RichText(
+                    text: TextSpan(
+                      text: user.grade == null ? "学年未設定" : "${user.grade}回生",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: kGrayColor),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: "${data ~/ 3600}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: kBlackColor),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding / 4),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "時間",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: kGrayColor),
+                          ),
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "${data ~/ 60}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: kBlackColor),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: kDefaultPadding / 4),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "分",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: kGrayColor),
+                          ),
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          text: "${data}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: kBlackColor),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        padding: EdgeInsets.only(left: kDefaultPadding / 4),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "秒",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: kGrayColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                ],
+              ),
             ),
           ],
         ),
