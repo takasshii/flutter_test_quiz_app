@@ -6,10 +6,11 @@ import 'package:sqflite/sqflite.dart';
 
 class ContinuousDaysUpdate extends ChangeNotifier {
   LearningDataGet? learningDateList;
+
   //取得したデータの格納用
   UserGet? userDetailList;
 
-  void fetchLearningDataList() async {
+  Future<void> fetchLearningDataList() async {
     const databaseName = 'your_database.db';
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, databaseName);
@@ -41,36 +42,6 @@ class ContinuousDaysUpdate extends ChangeNotifier {
         loginAt,
         createdAt,
         updatedAt);
-    notifyListeners();
-  }
-
-  void fetchUserList() async {
-    const databaseName = 'your_database.db';
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, databaseName);
-
-    Database database = await openDatabase(path, version: 1);
-
-    final db = await database;
-    const String insertSql = 'SELECT * FROM User';
-    final List<Map<String, dynamic>> map = await db.rawQuery(insertSql);
-
-    final String name = map[0]['name'];
-    final int? grade = map[0]['grade'];
-    bool graduation = false;
-    if (map[0]['graduation'] == 1) {
-      graduation = true;
-    }
-    bool open = true;
-    if (map[0]['open'] == 0) {
-      open = false;
-    }
-    String image = "assets/images/エジプト神（イヌ型）.png";
-    if (map[0]['image'] != null) {
-      image = map[0]['image'];
-    }
-    this.userDetailList = UserGet(name, grade, graduation, open, image);
-    notifyListeners();
   }
 
   void UpdateContinuousDaysUpdate(LearningDataGet? learningDateList) async {
@@ -110,5 +81,16 @@ class ContinuousDaysUpdate extends ChangeNotifier {
       record,
     );
     notifyListeners();
+  }
+
+  void LoginCheck() async {
+    await fetchLearningDataList();
+    //ログインの日程が異なる場合のみトリガーが発動
+    final bool isSameDay =
+        (DateTime.now().day - learningDateList!.loginAt.day).abs() == 0;
+
+    if (isSameDay == false) {
+      UpdateContinuousDaysUpdate(learningDateList);
+    }
   }
 }

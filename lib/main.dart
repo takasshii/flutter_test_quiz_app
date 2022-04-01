@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/controllers/continuous_days_update_controller.dart';
-import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:flutter_test_takashii/screens/welcome/welcome_screen.dart';
 import 'package:flutter_test_takashii/signUp/sign_up_model.dart';
 import 'package:provider/provider.dart';
-
-import 'domain/learning_data_get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,71 +18,56 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Quiz App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      home: RootPage(),
+    return ChangeNotifierProvider<IsFirstLogin>(
+      create: (_) => IsFirstLogin()..isFirstLoginFun(),
+      child: Consumer<IsFirstLogin>(builder: (context, model, child) {
+        final bool? _isFirstLogin = model.isFirstLogin;
+        if (_isFirstLogin == null) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return MaterialApp(
+          title: 'Quiz App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.light(),
+          home: RootPage(isFirstLogin: _isFirstLogin),
+        );
+      }),
     );
   }
 }
 
 class RootPage extends StatelessWidget {
+  const RootPage({Key? key, required this.isFirstLogin}) : super(key: key);
+  final bool isFirstLogin;
+
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var currentUser = _auth.currentUser;
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<SignUpModel>(create: (_) => SignUpModel()),
-        ChangeNotifierProvider<ContinuousDaysUpdate>(
-            create: (_) => ContinuousDaysUpdate()),
-      ],
-      child: Consumer<SignUpModel>(builder: (
-        context,
-        model,
-        child,
-      ) {
-        final learningDataModel = Provider.of<ContinuousDaysUpdate>(context);
-        final LearningDataGet? learningData =
-            learningDataModel.learningDateList;
-        final UserGet? userGet = learningDataModel.userDetailList;
-        //アカウントがない場合は作成
-        if (currentUser == null || learningData == null || userGet == null) {
-          model.login(currentUser);
-          FirebaseAuth.instance.userChanges().listen((User? user) {
-            if (user != null) {
-              model.userCreate();
-              model.userLocalCreate();
-              //データを取得
-              learningDataModel..fetchLearningDataList();
-              learningDataModel..fetchUserList();
-            }
-          });
-          if (learningData != null && userGet != null) {
-            return WelcomeScreen();
-          }
-          //アカウントがある場合は、ログイン処理と学習日数の更新を行う。
-        } else {
-          //データを取得
-          learningDataModel.fetchLearningDataList();
-          learningDataModel.fetchUserList();
+    print(isFirstLogin);
+    if (isFirstLogin == false) {
+      SignUpModel().signUpModel();
+      print('終わったで');
+      return WelcomeScreen();
+    } else {
+      ContinuousDaysUpdate().LoginCheck();
+      return BookList();
+    }
+  }
+}
 
-          if (learningData == null) {
-            //エラー画面にしたい
-            return Center(child: CircularProgressIndicator());
-          }
-          //ログインの日程が異なる場合のみトリガーが発動
-          final bool isSameDay =
-              (DateTime.now().day - learningData.loginAt.day).abs() == 0;
+//初回ログインか判定する
+class IsFirstLogin extends ChangeNotifier {
+  bool? _isFirstLogin;
+  bool? isFirstLogin;
 
-          if (isSameDay == false) {
-            learningDataModel.UpdateContinuousDaysUpdate(learningData);
-          }
-          return BookList();
-        }
-        return Center(child: CircularProgressIndicator());
-      }),
-    );
+  Future<void> isFirstLoginFun() async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    _isFirstLogin = prefs.getBool('isFirstLogin');
+    if (_isFirstLogin == true) {
+      isFirstLogin = true;
+    } else {
+      isFirstLogin = false;
+    }
+    notifyListeners();
   }
 }

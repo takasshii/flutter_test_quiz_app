@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SignUpModel extends ChangeNotifier {
-  void login(currentUser) {
+  void signUp() {
     //同期処理
     try {
       FirebaseAuth.instance.signInAnonymously();
@@ -15,7 +16,7 @@ class SignUpModel extends ChangeNotifier {
     }
   }
 
-  void userCreate() async {
+  void userCreate() {
     //初期化
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     //userのuidを取得
@@ -59,7 +60,7 @@ class SignUpModel extends ChangeNotifier {
     //publicの内容をbatchに保存する
     batch.set(publicUserReference, publicUserWrite);
     //書き込む
-    await batch.commit();
+    batch.commit();
   }
 
   //ローカルに書き込む
@@ -117,6 +118,26 @@ class SignUpModel extends ChangeNotifier {
       record2,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  //sharedに書き込み
+  void completedFirstLogin() async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFirstLogin', true);
+  }
+
+  //この二つは非同期処理させる
+  Future<void> createDataBase() async {
+    userCreate();
+    userLocalCreate();
+  }
+
+  //確実に処理させたいので同期
+  void signUpModel() {
+    signUp();
+    createDataBase();
+    completedFirstLogin();
   }
 }
 
