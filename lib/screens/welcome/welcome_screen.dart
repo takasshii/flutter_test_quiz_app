@@ -1,77 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
-import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
-import 'package:websafe_svg/websafe_svg.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            width: size.width,
-            height: size.height,
-            child: WebsafeSvg.asset("assets/icons/bg.svg", fit: BoxFit.fill),
+    return IntroductionScreen(
+      pages: [
+        PageViewModel(
+          title: "宿題管理アプリSKIMERへようこそ",
+          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
+          image: Center(
+            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Spacer(flex: 2),
-                  Text(
-                    "Let's Play Quiz",
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  Text("Enter your information below"),
-                  Spacer(),
-                  TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFF1C2341),
-                      hintText: "Full Name",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                    ),
-                  ),
-                  Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => BookList()),
-                      );
-                    },
-                    child: Container(
-                      width: size.width,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(kDefaultPadding * 0.75),
-                      decoration: BoxDecoration(
-                          gradient: kPrimaryGradient,
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Text(
-                        "Let's Start Quiz",
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(flex: 2),
-                ],
-              ),
-            ),
+        ),
+        PageViewModel(
+          title: "名前を入力してね",
+          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
+          image: Center(
+            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
           ),
-        ],
-      ),
-      bottomNavigationBar: BuildBottomNavigationBar(),
+        ),
+        PageViewModel(
+          title: "宿題管理アプリSKIMERへようこそ",
+          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
+          image: Center(
+            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+          ),
+        )
+      ],
+      onDone: () async {
+        completedFirstLogin();
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return BookList();
+        }));
+      },
+      showBackButton: false,
+      showSkipButton: true,
+      skip: const Text("スキップ"),
+      next: const Text("次へ"),
+      done: const Text("ホームへ", style: TextStyle(fontWeight: FontWeight.w600)),
+      dotsDecorator: DotsDecorator(
+          size: const Size.square(10.0),
+          activeSize: const Size(20.0, 10.0),
+          activeColor: kPrimaryColor,
+          color: Colors.black26,
+          spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+          activeShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0))),
     );
   }
+}
+
+//sharedに書き込み
+void completedFirstLogin() async {
+  // Obtain shared preferences.
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('isFirstLogin', true);
 }

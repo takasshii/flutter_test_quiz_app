@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
-import 'package:flutter_test_takashii/screens/myPage/policy/policy_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,14 +42,28 @@ class FiveBigButton extends StatelessWidget {
       }
     }
 
+    _launchInBrowserPolicy() async {
+      const url =
+          'https://nostalgic-catmint-d3c.notion.site/716f1cb47a35414e81d18acd06ab44ec';
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: true,
+        );
+      } else {
+        throw 'このURLにはアクセスできません';
+      }
+    }
+
     void Function() askUs = () {
       _launchInBrowser();
     };
 
     void Function() UserPolicy = () async {
-      await Navigator.push(
-          context, MaterialPageRoute(builder: (context) => (PolicyPage())));
+      _launchInBrowserPolicy();
     };
+
     return Column(
       children: [
         SomeFunctionBigButton(

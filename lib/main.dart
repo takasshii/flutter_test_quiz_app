@@ -43,7 +43,7 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(isFirstLogin);
-    if (isFirstLogin == false) {
+    if (isFirstLogin == true) {
       SignUpModel().signUpModel();
       print('終わったで');
       return WelcomeScreen();
