@@ -3,33 +3,71 @@ import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return IntroductionScreen(
       pages: [
         PageViewModel(
-          title: "宿題管理アプリSKIMERへようこそ",
-          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
-          image: Center(
-            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+          title: "助産師国試対策アプリへようこそ！",
+          body: "過去問を解いて\n国試対策ができるアプリです！",
+          image: Container(
+            width: size.width * 0.4,
+            height: size.width * 0.4,
+            child: Center(
+              child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+            ),
           ),
         ),
         PageViewModel(
-          title: "名前を入力してね",
-          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
-          image: Center(
-            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+          title: "使い方",
+          body: "",
+          image: Container(
+            width: size.width * 0.4,
+            height: size.width * 0.4,
+            child: Center(
+              child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+            ),
           ),
         ),
         PageViewModel(
-          title: "宿題管理アプリSKIMERへようこそ",
-          body: "宿題をみんなで管理\n宿題を終わらせてランクを上げよう！",
-          image: Center(
-            child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+          title: "早速使ってみよう！",
+          bodyWidget: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("利用規約をよく読んで使ってね！"),
+              TextButton(
+                  onPressed: () async {
+                    const url =
+                        'https://nostalgic-catmint-d3c.notion.site/716f1cb47a35414e81d18acd06ab44ec';
+                    if (await canLaunch(url)) {
+                      await launch(
+                        url,
+                        forceSafariVC: false,
+                        forceWebView: true,
+                      );
+                    } else {
+                      throw 'このURLにはアクセスできません';
+                    }
+                  },
+                  child: Text("利用規約")),
+              Text(
+                "（外部サイトへ遷移します。）",
+                style: TextStyle(fontSize: 10, color: kBlackColor),
+              ),
+            ],
+          ),
+          image: Container(
+            width: size.width * 0.4,
+            height: size.width * 0.4,
+            child: Center(
+              child: Image.asset("assets/images/エジプト神（イヌ型）.png"),
+            ),
           ),
         )
       ],
