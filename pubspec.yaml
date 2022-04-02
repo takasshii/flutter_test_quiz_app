@@ -64,6 +64,9 @@ dependencies:
   #初回ログイン
   introduction_screen: ^3.0.2
 
+  #広告
+  google_mobile_ads: ^1.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

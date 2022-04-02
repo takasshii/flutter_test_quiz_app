@@ -1,16 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/controllers/continuous_days_update_controller.dart';
+import 'package:flutter_test_takashii/repository/ad_state.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:flutter_test_takashii/screens/welcome/welcome_screen.dart';
 import 'package:flutter_test_takashii/signUp/sign_up_model.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final initFuture = MobileAds.instance.initialize();
+  final adState = AdState(initFuture);
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(Provider.value(
+    value: adState,
+    builder: (context, child) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
