@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
+import 'package:flutter_test_takashii/screens/welcome/login_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,7 +27,14 @@ class WelcomeScreen extends StatelessWidget {
         ),
         PageViewModel(
           title: "使い方",
-          body: "",
+          bodyWidget: TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+              child: Text("データ引き継ぎの方はこちら")),
           image: Container(
             width: size.width * 0.4,
             height: size.width * 0.4,
