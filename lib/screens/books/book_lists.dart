@@ -1,18 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/bottom_navigation_controller.dart';
+import 'package:flutter_test_takashii/repository/ad_state.dart';
 import 'package:flutter_test_takashii/screens/books/book_list_vertical/book_list_past_paper_vertical.dart';
 import 'package:flutter_test_takashii/screens/books/components/search_box.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/review/review_screen.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import 'components/recommend_card.dart';
 import 'components/title_of_books.dart';
 import 'model/past_paper_list_get.dart';
 
-class BookList extends StatelessWidget {
+class BookList extends StatefulWidget {
   const BookList({Key? key}) : super(key: key);
+
+  @override
+  State<BookList> createState() => _BookListState();
+}
+
+class _BookListState extends State<BookList> {
+  BannerAd? banner;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialization.then((status) {
+      setState(() {
+        banner = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.mediumRectangle,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +141,19 @@ class BookList extends StatelessWidget {
                             });
                       }),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: kDefaultPadding,
-                      right: kDefaultPadding,
-                      top: kDefaultPadding * 1.5,
-                      bottom: kDefaultPadding * 1.5),
-                  child: GestureDetector(
-                    onTap: () {},
+                if (banner == null)
+                  Container()
+                else
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
+                        top: kDefaultPadding * 1.5,
+                        bottom: kDefaultPadding * 1.5),
                     child: Container(
-                      width: size.width,
-                      height: 185,
+                      child: AdWidget(ad: banner!),
+                      width: banner!.size.width.toDouble(),
+                      height: banner!.size.height.toDouble(),
                       decoration: BoxDecoration(
                         color: kSecondBackGroundColor,
                         border: Border.all(color: kGrayColor.withOpacity(0.3)),
@@ -141,7 +168,6 @@ class BookList extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           );
