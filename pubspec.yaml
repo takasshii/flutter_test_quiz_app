@@ -73,6 +73,9 @@ dependencies:
   #サインインボタン
   flutter_signin_button: ^2.0.0
 
+  #dynamic link
+  firebase_dynamic_links: ^4.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

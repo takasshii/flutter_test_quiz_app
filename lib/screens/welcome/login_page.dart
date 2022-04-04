@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +60,13 @@ class LoginPage extends StatelessWidget {
                           .togglePasswordVisible(), // パスワード表示・非表示をトグルする
                     ),
                   ),
+                  SignInButton(
+                    Buttons.Google,
+                    text: "Sign up with Google",
+                    onPressed: () {
+                      model.googleSignIn();
+                    },
+                  ),
                   Container(
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: ElevatedButton(
@@ -107,8 +116,8 @@ class LoginPage extends StatelessWidget {
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                       ),
-                      onPressed: () {
-                        Navigator.push(
+                      onPressed: () async {
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ForgotPassword()),

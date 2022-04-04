@@ -6,6 +6,8 @@ import 'package:flutter_test_takashii/screens/myPage/dataTransfer/model/data_lin
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import 'components/text_with_dot.dart';
+import 'email_login_page.dart';
 
 class DataTransferPage extends StatelessWidget {
   const DataTransferPage({Key? key}) : super(key: key);
@@ -72,12 +74,27 @@ class DataTransferPage extends StatelessWidget {
                   ),
                 ),
                 Consumer<DataLinkModel>(builder: (context, model, child) {
-                  return SignInButton(
-                    Buttons.Google,
-                    text: "Sign up with Google",
-                    onPressed: () {
-                      model.googleSignIn();
-                    },
+                  return Column(
+                    children: [
+                      SignInButton(
+                        Buttons.Email,
+                        text: "Emailで連携",
+                        onPressed: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EmailLoginPage()),
+                          );
+                        },
+                      ),
+                      SignInButton(
+                        Buttons.Google,
+                        text: "Googleで連携",
+                        onPressed: () {
+                          model.googleSignIn();
+                        },
+                      ),
+                    ],
                   );
                 }),
                 Container(
@@ -97,8 +114,12 @@ class DataTransferPage extends StatelessWidget {
                   //Statusを取得
                   child: Column(
                     children: [
-                      TextWithDot(text: "メールアドレスなどを登録することで、学習データを保護することができます。"),
-                      TextWithDot(text: "アカウントの乗っ取りを防ぐことができます。"),
+                      TextWithDot(
+                          text: "メールアドレスなどを登録することで、学習データを保護することができます。",
+                          dot: "・"),
+                      TextWithDot(
+                          text: "よりセキュリティが強固になり、アカウントの乗っ取りを防ぐことができます。",
+                          dot: "・"),
                     ],
                   ),
                 ), // ここに追加
@@ -119,49 +140,19 @@ class DataTransferPage extends StatelessWidget {
                   //Statusを取得
                   child: Column(
                     children: [
-                      TextWithDot(text: "データ移行の際は、必ずこの作業を行なってから引き継ぎを行なってください。"),
-                      TextWithDot(text: "データを復旧できる確率が高くなります。"),
+                      TextWithDot(
+                          text: "データ移行の際は、必ずこの作業を行なってから引き継ぎを行なってください。",
+                          dot: "・"),
+                      TextWithDot(text: "データを復旧できる確率が高くなります。", dot: "・"),
                     ],
                   ),
-                ), // ここに追加
+                ),
               ],
             ),
           ),
         ),
         bottomNavigationBar: BuildBottomNavigationBar(),
       ),
-    );
-  }
-}
-
-class TextWithDot extends StatelessWidget {
-  const TextWithDot({Key? key, required this.text}) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '・',
-          style: TextStyle(
-            color: kBlackColor,
-            fontSize: 14,
-          ),
-        ),
-        Expanded(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: kBlackColor,
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.left,
-          ),
-        ),
-      ],
     );
   }
 }
