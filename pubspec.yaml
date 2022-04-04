@@ -67,6 +67,12 @@ dependencies:
   #広告
   google_mobile_ads: ^1.2.0
 
+  #googleログイン
+  google_sign_in: ^5.2.4
+
+  #サインインボタン
+  flutter_signin_button: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: kDefaultPadding),
           child: SingleChildScrollView(
             child: Consumer<LoginModel>(builder: (context, model, child) {
               return Column(
@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 32),
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: ElevatedButton(
                       onPressed: model.isUpdated()
                           ? () async {
@@ -102,7 +102,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 15),
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
@@ -115,11 +115,11 @@ class LoginPage extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                        'Forgot Password?',
+                        'パスワードをお忘れの方はこちら',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Color(0x98FFFFFF),
+                          color: kBlackColor,
                         ),
                       ),
                     ),

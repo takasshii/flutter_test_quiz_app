@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
+import 'package:flutter_test_takashii/screens/myPage/dataTransfer/data_transfer_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,6 +28,11 @@ class FiveBigButton extends StatelessWidget {
     void Function() question = () async {
       await Navigator.push(
           context, MaterialPageRoute(builder: (context) => (AskUsPage())));
+    };
+
+    void Function() dataTransfer = () async {
+      await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => (DataTransferPage())));
     };
 
     _launchInBrowser() async {
@@ -77,9 +83,9 @@ class FiveBigButton extends StatelessWidget {
           press: notification,
         ),
         SomeFunctionBigButton(
-          title: "よくある質問・使い方",
-          icon: Icon(Icons.contact_support),
-          press: question,
+          title: 'データの保護・引き継ぎ',
+          icon: Icon(Icons.add_moderator_rounded),
+          press: dataTransfer,
         ),
         SomeFunctionBigButton(
           title: "お問い合わせ・開発者に連絡",
@@ -90,6 +96,11 @@ class FiveBigButton extends StatelessWidget {
           title: "利用規約",
           icon: Icon(Icons.book_rounded),
           press: UserPolicy,
+        ),
+        SomeFunctionBigButton(
+          title: "よくある質問・使い方",
+          icon: Icon(Icons.contact_support),
+          press: question,
         ),
       ],
     );
