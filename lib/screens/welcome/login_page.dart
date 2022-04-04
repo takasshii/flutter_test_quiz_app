@@ -3,6 +3,7 @@ import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:provider/provider.dart';
 
+import 'components/input_form.dart';
 import 'forgot_password.dart';
 import 'model/login_model.dart';
 
@@ -17,6 +18,7 @@ class LoginPage extends StatelessWidget {
           elevation: 1.0,
           toolbarHeight: 50,
           backgroundColor: kBackGroundColor,
+          iconTheme: IconThemeData(color: kBlackColor),
           title: Text(
             "ログイン",
             style: TextStyle(
@@ -29,56 +31,31 @@ class LoginPage extends StatelessWidget {
             child: Consumer<LoginModel>(builder: (context, model, child) {
               return Column(
                 children: [
-                  TextFormField(
+                  InputForm(
+                    hintText: 'Email Address',
                     onChanged: (text) {
                       model.setMail(text);
                     },
                     controller: model.mailController,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      fillColor: Colors.black,
-                      filled: true,
-                      labelText: 'Email Address',
-                      labelStyle: TextStyle(
-                        color: Color(0x98FFFFFF),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                    textInputType: TextInputType.emailAddress,
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 12),
-                    child: TextFormField(
-                      onChanged: (text) {
-                        model.setPassword(text);
-                      },
-                      controller: model.passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      style: TextStyle(color: Colors.white),
-                      obscureText: !context.watch<LoginModel>().showPassword,
-                      decoration: InputDecoration(
-                        fillColor: Colors.black,
-                        filled: true,
-                        labelText: 'Password',
-                        labelStyle: TextStyle(
-                          color: Color(0x98FFFFFF),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(context
-                                  .watch<LoginModel>()
-                                  .showPassword // パスワード表示状態を監視(watch)
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () => context
-                              .read<LoginModel>()
-                              .togglePasswordVisible(), // パスワード表示・非表示をトグルする
-                        ),
-                      ),
+                  InputForm(
+                    hintText: 'Password',
+                    onChanged: (text) {
+                      model.setPassword(text);
+                    },
+                    controller: model.passwordController,
+                    textInputType: TextInputType.visiblePassword,
+                    obscureText: !context.watch<LoginModel>().showPassword,
+                    iconButton: IconButton(
+                      icon: Icon(context
+                              .watch<LoginModel>()
+                              .showPassword // パスワード表示状態を監視(watch)
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () => context
+                          .read<LoginModel>()
+                          .togglePasswordVisible(), // パスワード表示・非表示をトグルする
                     ),
                   ),
                   Container(
