@@ -4,6 +4,7 @@ import 'package:flutter_test_takashii/screens/myPage/askUs/ask_us_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/dataTransfer/data_transfer_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_page.dart';
 import 'package:flutter_test_takashii/screens/myPage/setting/setting_profile.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
@@ -62,12 +63,29 @@ class FiveBigButton extends StatelessWidget {
       }
     }
 
+    _launchInBrowserGoogleForm() async {
+      const url = 'https://forms.gle/mJRaTZ1DpffLXZkUA';
+      if (await canLaunch(url)) {
+        await launch(
+          url,
+          forceSafariVC: false,
+          forceWebView: true,
+        );
+      } else {
+        throw 'このURLにはアクセスできません';
+      }
+    }
+
     void Function() askUs = () {
       _launchInBrowser();
     };
 
     void Function() UserPolicy = () async {
       _launchInBrowserPolicy();
+    };
+
+    void Function() GoogleForm = () async {
+      _launchInBrowserGoogleForm();
     };
 
     return Column(
@@ -88,8 +106,13 @@ class FiveBigButton extends StatelessWidget {
           press: dataTransfer,
         ),
         SomeFunctionBigButton(
-          title: "お問い合わせ・開発者に連絡",
-          icon: Icon(Icons.call),
+          title: "お問い合わせ（GoogleForm）",
+          icon: Icon(Icons.article),
+          press: GoogleForm,
+        ),
+        SomeFunctionBigButton(
+          title: "開発者に連絡",
+          icon: FaIcon(FontAwesomeIcons.twitter),
           press: askUs,
         ),
         SomeFunctionBigButton(
@@ -113,7 +136,7 @@ class SomeFunctionBigButton extends StatelessWidget {
       : super(key: key);
 
   final String title;
-  final Icon icon;
+  final Widget icon;
   final void Function() press;
 
   @override
