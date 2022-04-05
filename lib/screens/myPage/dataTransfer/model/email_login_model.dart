@@ -113,6 +113,35 @@ class EmailLoginModel extends ChangeNotifier {
     }
   }
 
+  /// メールリンクの検証にのみ利　再ログイン時
+  Future<dynamic> _verifyDynamicLinWithLogin(
+      PendingDynamicLinkData? _data, BuildContext context) async {
+    // すでにSigninしている場合はスキップ
+    if (user != null) return;
+    // メールアドレスの入力がない場合はスキップ
+    if (mail == null) return;
+
+    final String? _deepLink = _data?.link.toString();
+    if (_deepLink == null) return;
+
+    // リンク（＝URL）が、メールリンクかどうか検証
+    if (_auth.isSignInWithEmailLink(_deepLink)) {
+      // メールリンクに含まれる認証情報でサインイン
+      // 成功したらFirebase Authenticationにユーザーを作成（すでに存在する場合はログインのみ）
+      _auth.signInWithEmailLink(email: mail!, emailLink: _deepLink).then(
+        (value) async {
+          ScaffoldSnackBar.of(context)
+              .show('Successfully signed in! by: ${value.user!.email!}');
+        },
+      ).catchError(
+        (onError) {
+          ScaffoldSnackBar.of(context)
+              .show('Error signing in with email link $onError');
+        },
+      );
+    }
+  }
+
   Future<void> register(BuildContext context) async {
     final String _email = mailController.text;
     _auth

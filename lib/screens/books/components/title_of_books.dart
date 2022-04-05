@@ -52,12 +52,9 @@ class TitleWithCustomUnderline extends StatelessWidget {
       height: 24,
       child: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding / 4),
-            child: Text(
-              text,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
+          Text(
+            text,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           Positioned(
             bottom: 0,

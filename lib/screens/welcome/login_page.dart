@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:flutter_test_takashii/constants.dart';
-import 'package:flutter_test_takashii/screens/books/book_lists.dart';
 import 'package:provider/provider.dart';
 
+import '../myPage/dataTransfer/components/text_with_dot.dart';
 import 'components/input_form.dart';
-import 'forgot_password.dart';
 import 'model/login_model.dart';
 
 class LoginPage extends StatelessWidget {
@@ -14,7 +13,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return ChangeNotifierProvider<LoginModel>(
-      create: (_) => LoginModel(),
+      create: (_) => LoginModel()..initAsync(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 1.0,
@@ -28,11 +27,56 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: kDefaultPadding),
           child: SingleChildScrollView(
             child: Consumer<LoginModel>(builder: (context, model, child) {
               return Column(
                 children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    //Statusを取得
+                    padding: EdgeInsets.only(
+                        top: kDefaultPadding, left: kDefaultPadding),
+                    child: Stack(
+                      children: [
+                        Text(
+                          "メールアドレスでログイン",
+                          style: TextStyle(
+                            color: kBlackColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 5),
+                            height: 3,
+                            color: kPrimaryColor.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding,
+                        vertical: kDefaultPadding / 2),
+                    //Statusを取得
+                    child: Column(
+                      children: [
+                        TextWithDot(text: "メールアドレスを入力してください。", dot: "１. "),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: kDefaultPadding / 4,
+                              bottom: kDefaultPadding / 4),
+                          child: TextWithDot(
+                              text: "送信されたメールのリンクを押してください。", dot: "２. "),
+                        ),
+                      ],
+                    ),
+                  ),
                   InputForm(
                     hintText: 'Email Address',
                     onChanged: (text) {
@@ -41,97 +85,101 @@ class LoginPage extends StatelessWidget {
                     controller: model.mailController,
                     textInputType: TextInputType.emailAddress,
                   ),
-                  InputForm(
-                    hintText: 'Password',
-                    onChanged: (text) {
-                      model.setPassword(text);
-                    },
-                    controller: model.passwordController,
-                    textInputType: TextInputType.visiblePassword,
-                    obscureText: !context.watch<LoginModel>().showPassword,
-                    iconButton: IconButton(
-                      icon: Icon(context
-                              .watch<LoginModel>()
-                              .showPassword // パスワード表示状態を監視(watch)
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: () => context
-                          .read<LoginModel>()
-                          .togglePasswordVisible(), // パスワード表示・非表示をトグルする
+                  Container(
+                    height: 50,
+                    width: 100,
+                    padding:
+                        EdgeInsets.symmetric(vertical: kDefaultPadding / 2),
+                    child:
+                        //メールリンクの送信がされていないとき
+                        model.storedMail == null
+                            ? ElevatedButton(
+                                onPressed: model.isUpdated()
+                                    ? () {
+                                        model.register(context);
+                                      }
+                                    : () {
+                                        ScaffoldSnackBar.of(context)
+                                            .show('メールアドレスを入力してください');
+                                      },
+                                child: const Text('ログイン',
+                                    style: TextStyle(
+                                        color: kBlackColor, fontSize: 16)),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.white,
+                                  onPrimary: kGrayColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  side: BorderSide(color: kGrayColor),
+                                ),
+                              )
+                            : ElevatedButton(
+                                onPressed: model.isUpdated()
+                                    ? () {
+                                        model.retry();
+                                      }
+                                    //メールリンクの送信後、リンクの検証がされていない時
+                                    : () {
+                                        ScaffoldSnackBar.of(context)
+                                            .show('メールアドレスを入力してください');
+                                      },
+                                child: const Text('再送信',
+                                    style: TextStyle(
+                                        color: kBlackColor, fontSize: 16)),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.white,
+                                  onPrimary: kGrayColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  side: BorderSide(color: kGrayColor),
+                                ),
+                              ),
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    //Statusを取得
+                    padding: EdgeInsets.only(
+                        top: kDefaultPadding, left: kDefaultPadding),
+                    child: Stack(
+                      children: [
+                        Text(
+                          "Googleアカウントでログイン",
+                          style: TextStyle(
+                            color: kBlackColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 5),
+                            height: 3,
+                            color: kPrimaryColor.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding,
+                        vertical: kDefaultPadding / 2),
+                    child: TextWithDot(
+                        text: "下のボタンをタップし、Googleアカウントでログインしてください。", dot: "１. "),
                   ),
                   SignInButton(
                     Buttons.Google,
-                    text: "Sign up with Google",
+                    text: "Sign in with Google",
                     onPressed: () {
                       model.googleSignIn();
                     },
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: ElevatedButton(
-                      onPressed: model.isUpdated()
-                          ? () async {
-                              try {
-                                await model.login();
-                                await _showDialog(context, 'ログインしました');
-                                Navigator.push(
-                                  context,
-                                  await Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return BookList();
-                                      },
-                                    ),
-                                  ),
-                                );
-                              } catch (e) {
-                                _showDialog(context, e.toString());
-                              }
-                            }
-                          : () {
-                              final snackBar = SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text("10文字以下で名前を入力してください"));
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.deepPurpleAccent,
-                        onPrimary: Colors.white,
-                        minimumSize: Size(230, 60),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                      ),
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPassword()),
-                        );
-                      },
-                      child: const Text(
-                        'パスワードをお忘れの方はこちら',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: kBlackColor,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               );
@@ -139,28 +187,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Future _showDialog(
-    BuildContext context,
-    String title,
-  ) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
