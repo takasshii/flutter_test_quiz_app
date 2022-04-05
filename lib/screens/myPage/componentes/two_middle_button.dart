@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/myPage/ranking/ranking_page.dart';
+import 'package:flutter_test_takashii/screens/myPage/support_developer/support_developer_page.dart';
 
 import '../../../constants.dart';
 
@@ -16,7 +17,15 @@ class TwoMiddleButton extends StatelessWidget {
       child: Row(
         children: [
           BuildOutlinedButton(
-              title: "なんか入るよ", icon: Icons.question_answer, press: () {}),
+              title: "開発者を支援",
+              icon: Icons.boy,
+              press: () async {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SupportDeveloperPage(),
+                    ));
+              }),
           Spacer(flex: 1),
           BuildOutlinedButton(
             title: "ランキング",
