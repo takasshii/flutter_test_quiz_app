@@ -3,12 +3,37 @@ import 'package:flutter_test_takashii/domain/notification_long.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/model/notification_model.dart';
 import 'package:flutter_test_takashii/screens/myPage/notification/notification_detail.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../../repository/ad_state.dart';
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
+
+  @override
+  State<NotificationPage> createState() => _NotificationPageState();
+}
+
+class _NotificationPageState extends State<NotificationPage> {
+  BannerAd? banner;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialization.then((status) {
+      setState(() {
+        banner = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.banner,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +61,9 @@ class NotificationPage extends StatelessWidget {
             final List<Widget> widgets = notifications
                 .map(
                   (notification) => Container(
-                    margin: EdgeInsets.symmetric(horizontal:kDefaultPadding, vertical: kDefaultPadding/2),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding,
+                        vertical: kDefaultPadding / 2),
                     padding: EdgeInsets.symmetric(
                         vertical: kDefaultPadding / 2,
                         horizontal: kDefaultPadding / 3),
@@ -135,9 +162,39 @@ class NotificationPage extends StatelessWidget {
                   ),
                 )
                 .toList();
-            return ListView(
-              padding: EdgeInsets.only(top: 10),
-              children: widgets,
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 10),
+                    children: widgets,
+                  ),
+                ),
+                if (banner == null)
+                  Container()
+                else
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: kDefaultPadding / 2, bottom: kDefaultPadding / 2),
+                    child: Container(
+                      child: AdWidget(ad: banner!),
+                      width: banner!.size.width.toDouble(),
+                      height: banner!.size.height.toDouble(),
+                      decoration: BoxDecoration(
+                        color: kSecondBackGroundColor,
+                        border: Border.all(color: kGrayColor.withOpacity(0.3)),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 10),
+                            blurRadius: 4,
+                            color: kGrayColor.withOpacity(0.23),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+              ],
             );
           }),
         ),

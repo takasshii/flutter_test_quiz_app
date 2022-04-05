@@ -3,9 +3,11 @@ import 'package:flutter_test_takashii/domain/ranking_data_get.dart';
 import 'package:flutter_test_takashii/domain/user_get.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
 import 'package:flutter_test_takashii/screens/myPage/ranking/model/ranking_model.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../../repository/ad_state.dart';
 
 class RankingPage extends StatelessWidget {
   const RankingPage({Key? key, required this.user}) : super(key: key);
@@ -79,7 +81,7 @@ class RankingPage extends StatelessWidget {
   }
 }
 
-class RankingList extends StatelessWidget {
+class RankingList extends StatefulWidget {
   const RankingList(
       {Key? key, required this.rankingTop10, required this.dataName})
       : super(key: key);
@@ -88,20 +90,73 @@ class RankingList extends StatelessWidget {
   final String dataName;
 
   @override
+  State<RankingList> createState() => _RankingListState();
+}
+
+class _RankingListState extends State<RankingList> {
+  BannerAd? banner;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialization.then((status) {
+      setState(() {
+        banner = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.banner,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: rankingTop10.length,
-        itemBuilder: (BuildContext context, int index) {
-          return BookImageWithName(
-            ranking: '${index + 1}',
-            data: dataName != 'totalTime'
-                ? rankingTop10[index].totalTime
-                : rankingTop10[index].todayTime,
-            user: rankingTop10[index],
-            press: () {},
-          );
-        });
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.rankingTop10.length,
+              itemBuilder: (BuildContext context, int index) {
+                return BookImageWithName(
+                  ranking: '${index + 1}',
+                  data: widget.dataName != 'totalTime'
+                      ? widget.rankingTop10[index].totalTime
+                      : widget.rankingTop10[index].todayTime,
+                  user: widget.rankingTop10[index],
+                  press: () {},
+                );
+              }),
+        ),
+        if (banner == null)
+          Container()
+        else
+          Padding(
+            padding: EdgeInsets.only(
+                top: kDefaultPadding / 2, bottom: kDefaultPadding / 2),
+            child: Container(
+              child: AdWidget(ad: banner!),
+              width: banner!.size.width.toDouble(),
+              height: banner!.size.height.toDouble(),
+              decoration: BoxDecoration(
+                color: kSecondBackGroundColor,
+                border: Border.all(color: kGrayColor.withOpacity(0.3)),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 10),
+                    blurRadius: 4,
+                    color: kGrayColor.withOpacity(0.23),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
 

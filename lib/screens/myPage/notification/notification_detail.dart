@@ -1,14 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/notification_long.dart';
 import 'package:flutter_test_takashii/screens/commonComponents/bottomNavigation/bottom_navigation_bar.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../../repository/ad_state.dart';
 
-class NotificationDetail extends StatelessWidget {
+class NotificationDetail extends StatefulWidget {
   const NotificationDetail({Key? key, required this.notification})
       : super(key: key);
 
   final NotificationLong notification;
+
+  @override
+  State<NotificationDetail> createState() => _NotificationDetailState();
+}
+
+class _NotificationDetailState extends State<NotificationDetail> {
+  BannerAd? banner;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final adState = Provider.of<AdState>(context);
+    adState.initialization.then((status) {
+      setState(() {
+        banner = BannerAd(
+          adUnitId: adState.bannerAdUnitId,
+          size: AdSize.mediumRectangle,
+          request: AdRequest(),
+          listener: adState.adListener,
+        )..load();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +63,13 @@ class NotificationDetail extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: notification.color,
+                        color: widget.notification.color,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
                       child: Text(
-                        "${notification.tag}",
+                        "${widget.notification.tag}",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -54,7 +80,7 @@ class NotificationDetail extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(left: kDefaultPadding / 2),
                       child: Text(
-                        "${notification.updatedAt.toDate().year}-${notification.updatedAt.toDate().month}-${notification.updatedAt.toDate().day} ${notification.updatedAt.toDate().hour}:${notification.updatedAt.toDate().minute.toString().padLeft(2, '0')}",
+                        "${widget.notification.updatedAt.toDate().year}-${widget.notification.updatedAt.toDate().month}-${widget.notification.updatedAt.toDate().day} ${widget.notification.updatedAt.toDate().hour}:${widget.notification.updatedAt.toDate().minute.toString().padLeft(2, '0')}",
                         style: TextStyle(
                           color: kBlackColor,
                           fontSize: 14,
@@ -71,7 +97,7 @@ class NotificationDetail extends StatelessWidget {
                     border: Border(
                         bottom: BorderSide(color: kGrayColor, width: 1))),
                 child: Text(
-                  notification.title,
+                  widget.notification.title,
                   style: TextStyle(
                     color: kBlackColor,
                     fontWeight: FontWeight.bold,
@@ -96,14 +122,41 @@ class NotificationDetail extends StatelessWidget {
                 width: double.infinity,
                 //Statusを取得
                 child: Text(
-                  notification.content,
+                  widget.notification.content,
                   style: TextStyle(
                     color: kBlackColor,
                     fontSize: 14,
                   ),
                   textAlign: TextAlign.left,
                 ),
-              ), // ここに追加
+              ), //
+              if (banner == null)
+                Container()
+              else
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      top: kDefaultPadding * 2,
+                      bottom: kDefaultPadding / 2),
+                  child: Container(
+                    child: AdWidget(ad: banner!),
+                    width: banner!.size.width.toDouble(),
+                    height: banner!.size.height.toDouble(),
+                    decoration: BoxDecoration(
+                      color: kSecondBackGroundColor,
+                      border: Border.all(color: kGrayColor.withOpacity(0.3)),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 10),
+                          blurRadius: 4,
+                          color: kGrayColor.withOpacity(0.23),
+                        ),
+                      ],
+                    ),
+                  ),
+                ), // ここに追加
             ],
           ),
         ),
