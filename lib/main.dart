@@ -49,10 +49,8 @@ class RootPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(isFirstLogin);
-    if (isFirstLogin == true) {
+    if (isFirstLogin == false) {
       SignUpModel().signUpModel();
-      print('終わったで');
       return WelcomeScreen();
     } else {
       ContinuousDaysUpdate().LoginCheck();
