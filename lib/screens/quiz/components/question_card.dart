@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/constants.dart';
 import 'package:flutter_test_takashii/controllers/progressbar_controller.dart';
 import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
-import 'package:flutter_test_takashii/models/Questions.dart';
 import 'package:flutter_test_takashii/screens/quiz/components/option.dart';
 import 'package:flutter_test_takashii/screens/score/score_screen.dart';
 import 'package:provider/provider.dart';
+
+import '../../../domain/past_problem.dart';
 
 class QuestionCard extends StatelessWidget {
   const QuestionCard(
@@ -16,7 +17,7 @@ class QuestionCard extends StatelessWidget {
       required this.questionLength})
       : super(key: key);
 
-  final Question question;
+  final PastProblem question;
   final int index;
   final PageController pageController;
   final int questionLength;
@@ -56,28 +57,30 @@ class QuestionCard extends StatelessWidget {
               questionNumber: question.id,
               number: index,
               press: () async {
-                model.checkAns(question, index);
-                model.fetchLearningDataList();
-                ProgressControllerState.stop();
-                if (question.id != questionLength)
-                  pageScrollModel(model);
-                else {
+                bool isCompleted = model.isCompleted(question, index);
+                if (isCompleted) {
+                  ProgressControllerState.stop();
                   model.fetchLearningDataList();
-                  if (model.learningDateList != null) {
-                    model.stopStopWatch();
-                    //データの更新
-                    //learningData
-                    model.UpdateContinuousDaysUpdate(
-                        questionLength, QuestionController.numberCorrectAns);
-                    //public
+                  if (question.id != questionLength)
+                    pageScrollModel(model);
+                  else {
+                    model.fetchLearningDataList();
+                    if (model.learningDateList != null) {
+                      model.stopStopWatch();
+                      //データの更新
+                      //learningData
+                      model.UpdateContinuousDaysUpdate(
+                          questionLength, QuestionController.numberCorrectAns);
+                      //public
 
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            ScoreScreen(questionLength: questionLength),
-                      ),
-                    );
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ScoreScreen(questionLength: questionLength),
+                        ),
+                      );
+                    }
                   }
                 }
               },

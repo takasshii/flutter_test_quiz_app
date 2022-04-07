@@ -1,4 +1,4 @@
-[
+const List pastPaper100 =[
   {
     "id": 1,
     "question": "遺伝性疾患で正しいのはどれか。",
@@ -430,5 +430,5 @@
     "answer_index": [3],
     "score": 2,
     "image": true
-  }
-]
+  },
+];

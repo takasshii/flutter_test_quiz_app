@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test_takashii/domain/learning_data_get.dart';
-import 'package:flutter_test_takashii/models/Questions.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constants.dart';
+import '../data/past_paper_100.dart';
+import '../domain/past_problem.dart';
 
 class QuestionController extends ChangeNotifier {
-  List<Question>? questions;
+  List<PastProblem>? questions;
   static int numberCorrectAns = 0;
   int numberLearnedQuestionSum = 0;
   int numberCorrectQuestionSum = 0;
@@ -54,6 +56,7 @@ class QuestionController extends ChangeNotifier {
 
   //読み込み
   LearningDataGet? learningDateList;
+
   void fetchLearningDataList() async {
     const databaseName = 'your_database.db';
     var databasesPath = await getDatabasesPath();
@@ -153,13 +156,15 @@ class QuestionController extends ChangeNotifier {
   void fetchQuestionList() async {
     numberCorrectAns = 0;
     s.start();
-    List<Question> _questions = await sample_data
+    List<PastProblem> _questions = await pastPaper100
         .map(
-          (question) => Question(
-            id: question['id'],
+          (question) => PastProblem(
+            id: question['id'] - 1,
             question: question['question'],
-            answer: question['answer_index'],
             options: question['options'],
+            answerIndex: question['answer_index'],
+            score: question['score'],
+            image: question['image'],
           ),
         )
         .toList();
@@ -169,22 +174,50 @@ class QuestionController extends ChangeNotifier {
 
   bool isAnswered = false;
   Color color = kGrayColor;
-  int selectedAns = -1;
   int questionNumber = -1;
   List<bool> storageResult = [];
+  //選択肢格納用
+  List<int> selectedAns = [];
+  //解答格納用
+  List<int> correctAns = [];
+  //解答の数
+  int? answerSum;
 
-  void checkAns(Question question, int selectedIndex) {
+  //questionの初期設定
+  void initQuestion(PastProblem question) {
+    //選択した選択肢
+    selectedAns = [];
+    //解答
+    List<int> correctAns = question.answerIndex;
+    //解答の数
+    answerSum = correctAns.length;
+  }
+
+  //全て選択し終えたかチェック
+  bool isCompleted(PastProblem question, selectedIndex) {
+    selectedAns.add(selectedIndex + 1);
+    int selectedSum = selectedAns.length;
+    //全て選択していた場合は、checkAnsに
+    if (answerSum == selectedSum) {
+      checkAns(question);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void checkAns(PastProblem question) {
+    //まだ選択途中の処理
     isAnswered = true;
     questionNumber = question.id;
-    int correctAns = question.answer;
-    selectedAns = selectedIndex;
+
     numberLearnedQuestionSum++;
-    if (correctAns == selectedAns) {
+    if (DeepCollectionEquality().equals(correctAns, selectedAns)) {
       numberCorrectAns++;
       numberCorrectQuestionSum++;
       color = kGreenColor;
       storageResult.add(true);
-    } else if (selectedAns != correctAns) {
+    } else {
       color = kRedColor;
       storageResult.add(false);
     }
