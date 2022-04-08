@@ -12,7 +12,6 @@ class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //スクロールを行うコントローラー
     final PageController pageController = PageController();
     return ChangeNotifierProvider<QuestionController>(
       create: (_) => QuestionController()..fetchQuestionList(),
@@ -45,12 +44,9 @@ class QuizScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding)),
-                  SizedBox(height: kDefaultPadding),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kDefaultPadding,
+                        vertical: kDefaultPadding / 2),
                     child: Text.rich(
                       TextSpan(
                         text: "Question ${model.questionNumber}",
@@ -70,19 +66,19 @@ class QuizScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: kDefaultPadding),
                   Expanded(
-                      child: PageView.builder(
-                          //前に戻れなくなる
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: pageController,
-                          onPageChanged: model.updateQuestionNumber,
-                          itemCount: questions.length,
-                          itemBuilder: (context, index) => QuestionCard(
-                              index: index,
-                              question: questions[index],
-                              pageController: pageController,
-                              questionLength: questions.length))),
+                    child: PageView.builder(
+                        //前に戻れなくなる
+                        physics: NeverScrollableScrollPhysics(),
+                        controller: pageController,
+                        onPageChanged: model.updateQuestionNumber,
+                        itemCount: questions.length,
+                        itemBuilder: (context, index) => QuestionCard(
+                            index: index,
+                            question: questions[index],
+                            pageController: pageController,
+                            questionLength: questions.length)),
+                  ),
                 ],
               ),
             );

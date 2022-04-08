@@ -44,7 +44,6 @@ class QuestionController extends ChangeNotifier {
   //ストップ
   stopStopWatch() {
     swatch.stop();
-    print(swatch.elapsed.inSeconds.toString());
     notifyListeners();
   }
 
@@ -209,7 +208,6 @@ class QuestionController extends ChangeNotifier {
   void checkAns(PastProblem question) {
     //まだ選択途中の処理
     isAnswered = true;
-    questionNumber = question.id;
 
     numberLearnedQuestionSum++;
     if (DeepCollectionEquality().equals(correctAns, selectedAns)) {
