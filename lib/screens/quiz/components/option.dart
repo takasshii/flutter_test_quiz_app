@@ -24,10 +24,15 @@ class Option extends StatelessWidget {
     Color color() {
       if (model.isAnswered) {
         //自身の問題番号と選択番号が一致する場合のみ色を変える
-        print("${model.selectedAns},${number + 1}");
-        print(model.selectedAns.contains(number + 1));
+        print(
+            "選択したもの:${model.selectedAns},番号${number + 1}, 正解:${model.correctAns}");
+        print(model.questionNumber == questionNumber);
+        print("モデルの問題番号${model.questionNumber}");
+        print("受け取った問題番号${questionNumber}");
+        //問題番号かつ選択+正解の選択肢が光る
         if (model.questionNumber == questionNumber &&
-            model.selectedAns.contains(number + 1)) {
+            (model.selectedAns.contains(number + 1) ||
+                model.correctAns.contains(number + 1))) {
           return model.color;
         } else {
           return kGrayColor;
@@ -47,9 +52,31 @@ class Option extends StatelessWidget {
         ),
         child: SizedBox(
           width: size.width - kDefaultPadding,
-          child: Text(
-            "${number + 1}. $option",
-            style: TextStyle(color: color(), fontSize: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  //全角入れないと上がずれる
+                  Text(
+                    '${number + 1}．',
+                    style: TextStyle(
+                      color: color(),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Text(
+                  "$option",
+                  style: TextStyle(
+                    color: color(),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

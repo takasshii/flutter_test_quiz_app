@@ -71,7 +71,6 @@ class QuizScreen extends StatelessWidget {
                         //前に戻れなくなる
                         physics: NeverScrollableScrollPhysics(),
                         controller: pageController,
-                        onPageChanged: model.updateQuestionNumber,
                         itemCount: questions.length,
                         itemBuilder: (context, index) => QuestionCard(
                             index: index,

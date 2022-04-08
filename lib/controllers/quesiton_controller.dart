@@ -158,7 +158,7 @@ class QuestionController extends ChangeNotifier {
     List<PastProblem> _questions = await pastPaper100
         .map(
           (question) => PastProblem(
-            id: question['id'] - 1,
+            id: question['id'],
             question: question['question'],
             options: question['options'],
             answerIndex: question['answer_index'],
@@ -173,7 +173,7 @@ class QuestionController extends ChangeNotifier {
 
   bool isAnswered = false;
   Color color = kGrayColor;
-  int questionNumber = -1;
+  int questionNumber = 1;
   List<bool> storageResult = [];
   //選択肢格納用
   List<int> selectedAns = [];
@@ -184,10 +184,12 @@ class QuestionController extends ChangeNotifier {
 
   //questionの初期設定
   void initQuestion(PastProblem question) {
+    //問題のid
+    questionNumber = question.id;
     //選択した選択肢
     selectedAns = [];
     //解答
-    List<int> correctAns = question.answerIndex;
+    correctAns = question.answerIndex;
     //解答の数
     answerSum = correctAns.length;
   }
@@ -208,7 +210,7 @@ class QuestionController extends ChangeNotifier {
   void checkAns(PastProblem question) {
     //まだ選択途中の処理
     isAnswered = true;
-
+    updateQuestionNumber(question.id);
     numberLearnedQuestionSum++;
     if (DeepCollectionEquality().equals(correctAns, selectedAns)) {
       numberCorrectAns++;
@@ -222,8 +224,8 @@ class QuestionController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateQuestionNumber(int index) {
-    questionNumber = index + 1;
+  void updateQuestionNumber(int number) {
+    questionNumber = number;
     notifyListeners();
   }
 }
