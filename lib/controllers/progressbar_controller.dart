@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import '../constants.dart';
 
@@ -13,6 +12,7 @@ class ProgressController extends StatefulWidget {
 class ProgressControllerState extends State<ProgressController>
     with SingleTickerProviderStateMixin {
   static late AnimationController animationController;
+
   //なぜか使用されない？？
   late Animation animation;
 
@@ -47,31 +47,39 @@ class ProgressControllerState extends State<ProgressController>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) =>
-              Container(
-            width: size.width * animationController.value,
-            decoration: BoxDecoration(
-              gradient: kPrimaryGradient,
-              borderRadius: BorderRadius.circular(50),
+        Text("${(animationController.value * 60).round()}/60sec",
+            style: TextStyle(color: kBlackColor, fontSize: 10)),
+        Stack(
+          children: [
+            Container(
+              width: size.width,
+              height: 4,
+              decoration: BoxDecoration(
+                color: kGrayColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
             ),
-          ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) =>
+                    Container(
+                  height: 4,
+                  width: size.width * animationController.value,
+                  decoration: BoxDecoration(
+                    gradient: kPrimaryGradient,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        Positioned.fill(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("${(animationController.value * 60).round()} sec"),
-                WebsafeSvg.asset("assets/icons/clock.svg")
-              ],
-            ),
-          ),
-        )
       ],
     );
   }

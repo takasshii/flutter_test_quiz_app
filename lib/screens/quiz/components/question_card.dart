@@ -47,7 +47,7 @@ class QuestionCard extends StatelessWidget {
           children: [
             Text(
               question.question,
-              style: TextStyle(color: kBlackColor, fontSize: 18),
+              style: TextStyle(color: kBlackColor, fontSize: 16),
             ),
             ...List.generate(
               question.options.length,

@@ -14,15 +14,7 @@ class ProgressBar extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: size.width,
-            height: 35,
-            decoration: BoxDecoration(
-              border: Border.all(color: kBlackColor, width: 3),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: ProgressController(key: _key),
-          ),
+          Container(width: size.width, child: ProgressController(key: _key)),
         ],
       ),
     );

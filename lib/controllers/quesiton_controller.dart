@@ -169,6 +169,8 @@ class QuestionController extends ChangeNotifier {
         )
         .toList();
     this.questions = _questions;
+    //初回の問題を設定
+    initQuestion(questions![0]);
     notifyListeners();
   }
 

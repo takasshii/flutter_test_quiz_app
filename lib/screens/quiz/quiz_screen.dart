@@ -21,17 +21,15 @@ class QuizScreen extends StatelessWidget {
           elevation: 0,
           backgroundColor: kBackGroundColor,
           iconTheme: IconThemeData(color: kBlackColor),
+          title: PreferredSize(
+              preferredSize: const Size.fromHeight(20), child: ProgressBar()),
+          titleSpacing: 0,
           actions: [
-            TextButton(
+            IconButton(
               onPressed: () {},
-              child: Text(
-                "Skip",
-                style: TextStyle(color: kBlackColor),
-              ),
+              icon: Icon(Icons.more_horiz),
             ),
           ],
-          bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(40), child: ProgressBar()),
         ),
         body: Consumer<QuestionController>(
           builder: (context, model, child) {
@@ -49,18 +47,18 @@ class QuizScreen extends StatelessWidget {
                         vertical: kDefaultPadding / 2),
                     child: Text.rich(
                       TextSpan(
-                        text: "Question ${model.questionIndex}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            ?.copyWith(color: kSecondaryColor),
+                        text: "${model.questionIndex}",
+                        style: TextStyle(
+                          color: kSecondaryColor,
+                          fontSize: 20,
+                        ),
                         children: [
                           TextSpan(
                             text: "/${model.questions?.length}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5
-                                ?.copyWith(color: kSecondaryColor),
+                            style: TextStyle(
+                              color: kSecondaryColor,
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),
