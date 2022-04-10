@@ -25,6 +25,7 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<QuestionController>(context, listen: false);
+    Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
@@ -60,7 +61,7 @@ class QuestionCard extends StatelessWidget {
                   if (isCompleted) {
                     ProgressControllerState.stop();
                     model.fetchLearningDataList();
-                    if (question.id != questionLength) {
+                    if (questionIndex != questionLength) {
                       await pageScrollModel(model);
                       model.initQuestion(question);
                       model.updateIndex();
@@ -84,6 +85,75 @@ class QuestionCard extends StatelessWidget {
                     }
                   }
                 },
+              ),
+            ),
+            GestureDetector(
+              //上と同じ
+              onTap: () async {
+                model.isFailedTapped = true;
+                model.changeRedColor();
+                model.checkAns(question);
+                ProgressControllerState.stop();
+                model.fetchLearningDataList();
+                if (questionIndex != questionLength) {
+                  await pageScrollModel(model);
+                  model.initQuestion(question);
+                  model.updateIndex();
+                } else {
+                  model.fetchLearningDataList();
+                  if (model.learningDateList != null) {
+                    model.stopStopWatch();
+                    //データの更新
+                    //learningData
+                    model.UpdateContinuousDaysUpdate(
+                        questionLength, QuestionController.numberCorrectAns);
+                    //public
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ScoreScreen(questionLength: questionLength),
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: kDefaultPadding / 1.5),
+                padding: EdgeInsets.all(kDefaultPadding / 2),
+                decoration: BoxDecoration(
+                  border: Border.all(color: model.changeRedColor()),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: SizedBox(
+                  width: size.width - kDefaultPadding,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          //全角入れないと上がずれる
+                          Text(
+                            '${question.options.length + 1}．',
+                            style: TextStyle(
+                              color: model.changeRedColor(),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: Text(
+                          "わからない",
+                          style: TextStyle(
+                            color: model.changeRedColor(),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

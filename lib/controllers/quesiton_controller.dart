@@ -190,6 +190,8 @@ class QuestionController extends ChangeNotifier {
     selectedAns = [];
     //解答
     correctAns = question.answerIndex;
+    //わからないの色を戻す
+    isFailedTapped = false;
     notifyListeners();
   }
 
@@ -225,5 +227,14 @@ class QuestionController extends ChangeNotifier {
   void updateIndex() {
     questionIndex++;
     notifyListeners();
+  }
+
+  //わからないを選択した際
+  bool isFailedTapped = false;
+  Color changeRedColor() {
+    if (isFailedTapped) {
+      return kRedColor;
+    }
+    return kGrayColor;
   }
 }

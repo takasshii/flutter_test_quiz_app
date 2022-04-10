@@ -26,10 +26,6 @@ class Option extends StatelessWidget {
     Color color() {
       if (model.isAnswered) {
         //自身の問題番号と選択番号、正解番号
-        print("選択した番号: ${model.selectedAns}");
-        print("正解: ${model.correctAns}");
-        print("押した番号: ${number + 1}");
-        print(model.questionIndex == questionIndex + 1);
         if (model.questionIndex == questionIndex + 1 &&
             (model.selectedAns.contains(number + 1) ||
                 model.correctAns.contains(number + 1))) {
