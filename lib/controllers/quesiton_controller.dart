@@ -154,6 +154,7 @@ class QuestionController extends ChangeNotifier {
 
   void fetchQuestionList() async {
     numberCorrectAns = 0;
+    resetStopWatch();
     s.start();
     List<PastProblem> _questions = await pastPaper100
         .map(
@@ -173,7 +174,8 @@ class QuestionController extends ChangeNotifier {
 
   bool isAnswered = false;
   Color color = kGrayColor;
-  int questionNumber = 1;
+  //現在の問題数
+  int questionIndex = 1;
   List<bool> storageResult = [];
   //選択肢格納用
   List<int> selectedAns = [];
@@ -184,18 +186,16 @@ class QuestionController extends ChangeNotifier {
 
   //questionの初期設定
   void initQuestion(PastProblem question) {
-    //問題のid
-    questionNumber = question.id;
     //選択した選択肢
     selectedAns = [];
     //解答
     correctAns = question.answerIndex;
-    //解答の数
-    answerSum = correctAns.length;
+    notifyListeners();
   }
 
   //全て選択し終えたかチェック
   bool isCompleted(PastProblem question, selectedIndex) {
+    answerSum = question.answerIndex.length;
     selectedAns.add(selectedIndex + 1);
     int selectedSum = selectedAns.length;
     //全て選択していた場合は、checkAnsに
@@ -210,7 +210,6 @@ class QuestionController extends ChangeNotifier {
   void checkAns(PastProblem question) {
     //まだ選択途中の処理
     isAnswered = true;
-    updateQuestionNumber(question.id);
     numberLearnedQuestionSum++;
     if (DeepCollectionEquality().equals(correctAns, selectedAns)) {
       numberCorrectAns++;
@@ -222,8 +221,9 @@ class QuestionController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateQuestionNumber(int number) {
-    questionNumber = number;
+  //問題番号を更新
+  void updateIndex() {
+    questionIndex++;
     notifyListeners();
   }
 }

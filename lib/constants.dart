@@ -7,6 +7,7 @@ const kSecondBackGroundColor = Color(0xFFFFF3E7);
 const kLogoBackGroundColor = Color(0x98FFFFFF);
 const kLogoSecondBackGroundColor = Color(0xFFFFDBB6);
 const kGreenColor = Color(0xFFB3FB3C);
+const kGreenCorrectColor = Color(0xFF609C02);
 const kRedColor = Color(0xFFE92E30);
 const kGrayColor = Color(0xFFC1C1C1);
 const kBlackColor = Color(0xFF2E282A);

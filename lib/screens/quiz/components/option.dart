@@ -9,12 +9,14 @@ class Option extends StatelessWidget {
       required this.option,
       required this.number,
       required this.press,
-      required this.questionNumber})
+      required this.questionNumber,
+      required this.questionIndex})
       : super(key: key);
 
   final String option;
   final int questionNumber;
   final int number;
+  final int questionIndex;
   final void Function() press;
 
   @override
@@ -24,12 +26,16 @@ class Option extends StatelessWidget {
     Color color() {
       if (model.isAnswered) {
         //自身の問題番号と選択番号、正解番号
-        if (model.questionNumber == questionNumber &&
+        print("選択した番号: ${model.selectedAns}");
+        print("正解: ${model.correctAns}");
+        print("押した番号: ${number + 1}");
+        print(model.questionIndex == questionIndex + 1);
+        if (model.questionIndex == questionIndex + 1 &&
             (model.selectedAns.contains(number + 1) ||
                 model.correctAns.contains(number + 1))) {
           //正解の場合
           if (model.correctAns.contains(number + 1)) {
-            return kGreenColor;
+            return kGreenCorrectColor;
             //不正解の場合
           } else {
             return kRedColor;

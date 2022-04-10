@@ -9,7 +9,7 @@ class AdState {
       //テスト用なので後で変えよう
       Platform.isAndroid
           ? "ca-app-pub-6039423639929280/3272407278"
-          : "ca-app-pub-6039423639929280/4265144491";
+          : "ca-app-pub-3940256099942544/2934735716";
 
   BannerAdListener get adListener => _adListener;
   BannerAdListener _adListener = BannerAdListener(

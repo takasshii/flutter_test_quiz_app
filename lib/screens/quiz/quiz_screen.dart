@@ -49,7 +49,7 @@ class QuizScreen extends StatelessWidget {
                         vertical: kDefaultPadding / 2),
                     child: Text.rich(
                       TextSpan(
-                        text: "Question ${model.questionNumber}",
+                        text: "Question ${model.questionIndex}",
                         style: Theme.of(context)
                             .textTheme
                             .headline4
@@ -73,7 +73,7 @@ class QuizScreen extends StatelessWidget {
                         controller: pageController,
                         itemCount: questions.length,
                         itemBuilder: (context, index) => QuestionCard(
-                            index: index,
+                            questionIndex: index,
                             question: questions[index],
                             pageController: pageController,
                             questionLength: questions.length)),
