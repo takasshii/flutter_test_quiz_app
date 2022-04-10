@@ -36,7 +36,8 @@ class QuizScreen extends StatelessWidget {
           ),
           title: Row(
             children: [
-              Expanded(
+              Container(
+                alignment: Alignment.bottomRight,
                 child: PreferredSize(
                     preferredSize: const Size.fromHeight(40),
                     child: ProgressBar()),
