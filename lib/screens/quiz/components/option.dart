@@ -23,19 +23,17 @@ class Option extends StatelessWidget {
     final model = Provider.of<QuestionController>(context);
     Color color() {
       if (model.isAnswered) {
-        //自身の問題番号と選択番号が一致する場合のみ色を変える
-        print(
-            "選択したもの:${model.selectedAns},番号${number + 1}, 正解:${model.correctAns}");
-        print(model.questionNumber == questionNumber);
-        print("モデルの問題番号${model.questionNumber}");
-        print("受け取った問題番号${questionNumber}");
-        //問題番号かつ選択+正解の選択肢が光る
+        //自身の問題番号と選択番号、正解番号
         if (model.questionNumber == questionNumber &&
             (model.selectedAns.contains(number + 1) ||
                 model.correctAns.contains(number + 1))) {
-          return model.color;
-        } else {
-          return kGrayColor;
+          //正解の場合
+          if (model.correctAns.contains(number + 1)) {
+            return kGreenColor;
+            //不正解の場合
+          } else {
+            return kRedColor;
+          }
         }
       }
       return kGrayColor;

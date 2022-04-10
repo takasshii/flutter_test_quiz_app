@@ -215,10 +215,8 @@ class QuestionController extends ChangeNotifier {
     if (DeepCollectionEquality().equals(correctAns, selectedAns)) {
       numberCorrectAns++;
       numberCorrectQuestionSum++;
-      color = kGreenColor;
       storageResult.add(true);
     } else {
-      color = kRedColor;
       storageResult.add(false);
     }
     notifyListeners();
