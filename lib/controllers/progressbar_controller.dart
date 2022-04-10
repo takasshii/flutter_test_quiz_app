@@ -50,34 +50,47 @@ class ProgressControllerState extends State<ProgressController>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("${(animationController.value * 60).round()}/60sec",
-            style: TextStyle(color: kBlackColor, fontSize: 10)),
         Stack(
           children: [
             Container(
-              width: size.width,
+              width: size.width - 48 - 40,
               height: 4,
               decoration: BoxDecoration(
                 color: kGrayColor,
                 borderRadius: BorderRadius.circular(50),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) =>
-                    Container(
-                  height: 4,
-                  width: size.width * animationController.value,
-                  decoration: BoxDecoration(
-                    gradient: kPrimaryGradient,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+            LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) =>
+                  Container(
+                height: 4,
+                width: (size.width - 48 - 40) * animationController.value,
+                decoration: BoxDecoration(
+                  gradient: kPrimaryGradient,
+                  borderRadius: BorderRadius.circular(50),
                 ),
               ),
             ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                padding: EdgeInsets.only(right: kDefaultPadding / 10),
+                height: 12,
+                child: Text("目標時間 ",
+                    style: TextStyle(color: kGrayColor, fontSize: 10))),
+            Container(
+              height: 12,
+              child: Text("${(animationController.value * 60).round()}",
+                  style: TextStyle(color: kBlackColor, fontSize: 12)),
+            ),
+            Container(
+                height: 12,
+                child: Text("/60秒",
+                    style: TextStyle(color: kGrayColor, fontSize: 10))),
           ],
         ),
       ],

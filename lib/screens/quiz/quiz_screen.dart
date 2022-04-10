@@ -16,20 +16,44 @@ class QuizScreen extends StatelessWidget {
     return ChangeNotifierProvider<QuestionController>(
       create: (_) => QuestionController()..fetchQuestionList(),
       child: Scaffold(
-        extendBodyBehindAppBar: true,
         appBar: AppBar(
           elevation: 0,
+          titleSpacing: 0,
+          leadingWidth: 24,
           backgroundColor: kBackGroundColor,
           iconTheme: IconThemeData(color: kBlackColor),
-          title: PreferredSize(
-              preferredSize: const Size.fromHeight(20), child: ProgressBar()),
-          titleSpacing: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.more_horiz),
+          automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 24,
+              padding: EdgeInsets.only(left: kDefaultPadding / 2),
+              child: Icon(
+                Icons.clear,
+                size: 24,
+              ),
             ),
-          ],
+          ),
+          title: Row(
+            children: [
+              Expanded(
+                child: PreferredSize(
+                    preferredSize: const Size.fromHeight(40),
+                    child: ProgressBar()),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 24,
+                  padding: EdgeInsets.only(right: kDefaultPadding / 2),
+                  child: Icon(
+                    Icons.more_vert,
+                    size: 24,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         body: Consumer<QuestionController>(
           builder: (context, model, child) {
