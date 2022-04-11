@@ -14,7 +14,7 @@ class SearchListShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SearchBoxModel>(
-      create: (_) => SearchBoxModel()..fetchTitleList(),
+      create: (_) => SearchBoxModel(),
       child: Consumer<SearchBoxModel>(builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
