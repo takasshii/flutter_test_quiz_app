@@ -11,6 +11,7 @@ import 'indicator.dart';
 
 class PieChartSample2 extends StatefulWidget {
   final int index;
+
   const PieChartSample2({Key? key, required this.index}) : super(key: key);
 
   @override
@@ -19,7 +20,6 @@ class PieChartSample2 extends StatefulWidget {
 
 class _PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _PieChart2State extends State<PieChartSample2> {
                           RichText(
                               text: TextSpan(
                                   text:
-                                      "${(pastPaper100.length - questionDataListAll[widget.index].length.toDouble() / pastPaper100.length) * 100}",
+                                      "${((questionDataListAll[widget.index].where((element) => element.latestCorrect == 1).length.toDouble() / pastPaper100.length) * 100).toInt()}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: size.width / 6,
@@ -102,8 +102,9 @@ class _PieChart2State extends State<PieChartSample2> {
                   Column(
                     children: [
                       ReviewQuestionCount(
-                        questionCount: 0,
-                      ),
+                          questionCount: (questionDataListAll[widget.index]
+                              .where((element) => element.latestCorrect == 1)
+                              .length)),
                       Indicator(
                         color: kGreenColor,
                         text: '習得済',
@@ -117,7 +118,9 @@ class _PieChart2State extends State<PieChartSample2> {
                   Column(
                     children: [
                       ReviewQuestionCount(
-                        questionCount: 0,
+                        questionCount: (questionDataListAll[widget.index]
+                            .where((element) => element.latestCorrect == 0)
+                            .length),
                       ),
                       Indicator(
                         color: kRedColor,
@@ -132,7 +135,8 @@ class _PieChart2State extends State<PieChartSample2> {
                   Column(
                     children: [
                       ReviewQuestionCount(
-                        questionCount: 0,
+                        questionCount: (pastPaper100.length -
+                            questionDataListAll[widget.index].length),
                       ),
                       Indicator(
                         color: kGrayColor,
