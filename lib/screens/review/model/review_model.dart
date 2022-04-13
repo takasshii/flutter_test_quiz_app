@@ -46,8 +46,6 @@ class ReviewModel extends ChangeNotifier {
         });
       }
       this.questionDataListAll!.add(questionDataList);
-      print("仮のデータ:${questionDataList}");
-      print("現在のデータ:${questionDataListAll}");
     }
     notifyListeners();
   }
