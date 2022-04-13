@@ -164,14 +164,9 @@ class _PieChart2State extends State<PieChartSample2> {
         case 0:
           return PieChartSectionData(
             color: kGreenColor,
-            value: (questionDataListAll[i]
-                        .where((element) => element.latestCorrect == 1)
-                        .length
-                        .toDouble() /
-                    pastPaper100.length) *
-                100,
+            value: (((questionDataListAll[i].where((element) => element.latestCorrect == 1).length.toDouble()) / pastPaper100.length) * 100),
             title:
-                '${(questionDataListAll[i].where((element) => element.latestCorrect == 1).length.toDouble() / pastPaper100.length) * 100}%',
+                '${(((questionDataListAll[i].where((element) => element.latestCorrect == 1).length.toDouble()) / pastPaper100.length) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -181,14 +176,14 @@ class _PieChart2State extends State<PieChartSample2> {
         case 1:
           return PieChartSectionData(
             color: kRedColor,
-            value: (questionDataListAll[i]
+            value: ((questionDataListAll[i]
                         .where((element) => element.latestCorrect == 0)
                         .length
-                        .toDouble() /
+                        .toDouble()) /
                     pastPaper100.length) *
                 100,
             title:
-                '${(questionDataListAll[i].where((element) => element.latestCorrect == 0).length.toDouble() / pastPaper100.length) * 100}%',
+                '${(((questionDataListAll[i].where((element) => element.latestCorrect == 0).length.toDouble()) / pastPaper100.length) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
@@ -198,12 +193,12 @@ class _PieChart2State extends State<PieChartSample2> {
         case 2:
           return PieChartSectionData(
             color: kGrayColor,
-            value: (pastPaper100.length -
+            value: ((pastPaper100.length -
                     questionDataListAll[i].length.toDouble() /
-                        pastPaper100.length) *
+                        pastPaper100.length)) *
                 100,
             title:
-                '${(pastPaper100.length - questionDataListAll[i].length.toDouble() / pastPaper100.length) * 100}%',
+                '${(((pastPaper100.length - questionDataListAll[i].length.toDouble()) / pastPaper100.length) * 100).toInt()}%',
             radius: radius,
             titleStyle: TextStyle(
                 fontSize: fontSize,
