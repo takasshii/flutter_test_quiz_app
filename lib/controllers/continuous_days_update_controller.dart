@@ -56,7 +56,7 @@ class ContinuousDaysUpdate extends ChangeNotifier {
 
     const String tableName = 'LearningData';
     //学習した日数の更新
-    int totalDay = learningDateList!.totalDay++;
+    int totalDay = learningDateList!.totalDay + 1;
     int currentContinuousRecord = learningDateList.currentContinuousRecord;
     int continuousRecord = learningDateList.continuousRecord;
 

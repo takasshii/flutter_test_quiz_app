@@ -164,7 +164,12 @@ class _PieChart2State extends State<PieChartSample2> {
         case 0:
           return PieChartSectionData(
             color: kGreenColor,
-            value: (((questionDataListAll[i].where((element) => element.latestCorrect == 1).length.toDouble()) / pastPaper100.length) * 100),
+            value: (((questionDataListAll[i]
+                        .where((element) => element.latestCorrect == 1)
+                        .length
+                        .toDouble()) /
+                    pastPaper100.length) *
+                100),
             title:
                 '${(((questionDataListAll[i].where((element) => element.latestCorrect == 1).length.toDouble()) / pastPaper100.length) * 100).toInt()}%',
             radius: radius,

@@ -1,7 +1,8 @@
 class QuestionDataList {
-  QuestionDataList(this.questionId, this.answeredTimes, this.correctTimes,
+  QuestionDataList(this.pastTitle, this.questionId, this.answeredTimes, this.correctTimes,
       this.wrongTimes, this.continuousCorrectTimes, this.latestCorrect);
 
+  int? pastTitle;
   int questionId;
   int answeredTimes;
   int correctTimes;

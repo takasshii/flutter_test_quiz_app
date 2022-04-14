@@ -28,6 +28,7 @@ class ReviewModel extends ChangeNotifier {
       int j = 0;
       if (listTemp.length > 0) {
         listTemp.forEach((map) {
+          final int pastTitle = map[j]['pastTitle'];
           final int questionId = map[j]['questionId'];
           final int answeredTimes = map[j]['answeredTimes'];
           final int correctTimes = map[j]['correctTimes'];
@@ -35,6 +36,7 @@ class ReviewModel extends ChangeNotifier {
           final int continuousCorrectTimes = map[j]['continuousCorrectTimes'];
           final int latestCorrect = map[j]['latestCorrect'];
           questionDataList.add(QuestionDataList(
+            pastTitle,
             questionId,
             answeredTimes,
             correctTimes,

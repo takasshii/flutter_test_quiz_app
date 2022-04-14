@@ -60,10 +60,11 @@ class QuestionCard extends StatelessWidget {
                   bool isCompleted = model.isCompleted(question, index);
                   if (isCompleted) {
                     ProgressControllerState.stop();
-                    model.fetchLearningDataList();
                     if (questionIndex != questionLength) {
                       await pageScrollModel(model);
                       model.initQuestion(question);
+                      await model.fetchQuestionDataList(
+                          question.tag, question.id);
                       model.updateIndex();
                     } else {
                       model.fetchLearningDataList();
@@ -170,7 +171,6 @@ class QuestionCard extends StatelessWidget {
       Duration(seconds: 1),
       () {
         model.isAnswered = false;
-        print(model.questionIndex);
         if (pageController.hasClients) {
           pageController.nextPage(
               //100msかけてページを動かす
