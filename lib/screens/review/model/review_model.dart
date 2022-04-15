@@ -26,7 +26,7 @@ class ReviewModel extends ChangeNotifier {
           where: 'pastTitle=?', whereArgs: [pastPaperTitleList[i].tag]);
       List<QuestionDataList> questionDataList = [];
       if (listTemp.length > 0) {
-        listTemp.map((data) {
+        questionDataList = listTemp.map((data) {
           final int? pastTitle = data['pastTitle'];
           final int questionId = data['questionId'];
           final int answeredTimes = data['answeredTimes'];
@@ -34,7 +34,7 @@ class ReviewModel extends ChangeNotifier {
           final int wrongTimes = data['wrongTimes'];
           final int continuousCorrectTimes = data['continuousCorrectTimes'];
           final int latestCorrect = data['latestCorrect'];
-          questionDataList.add(QuestionDataList(
+          return QuestionDataList(
             pastTitle,
             questionId,
             answeredTimes,
@@ -42,8 +42,8 @@ class ReviewModel extends ChangeNotifier {
             wrongTimes,
             continuousCorrectTimes,
             latestCorrect,
-          ));
-        });
+          );
+        }).toList();
       }
       this.questionDataListAll!.add(questionDataList);
     }
