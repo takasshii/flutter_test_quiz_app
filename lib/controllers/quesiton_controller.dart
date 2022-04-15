@@ -172,6 +172,7 @@ class QuestionController extends ChangeNotifier {
     Database database = await openDatabase(path, version: 1);
 
     final db = await database;
+
     List<Map<String, dynamic>>? listTemp =
         await db.query('QuestionData', where: 'questionId=?', whereArgs: [id]);
 
@@ -179,6 +180,7 @@ class QuestionController extends ChangeNotifier {
 
     //何も格納されていないとき
     if (listTemp.length == 0) {
+      isSearched = false;
       print("何もないよ");
       final int pastTitle = tag;
       final int questionId = id;
@@ -190,47 +192,16 @@ class QuestionController extends ChangeNotifier {
       this.questionData = QuestionDataList(pastTitle, questionId, answeredTimes,
           correctTimes, wrongTimes, continuousCorrectTimes, latestCorrect);
     } else {
-      listTemp.map((data) {
-        final pastTitle = data['pastTitle'];
-        //問題のデータがある時
-        if (pastTitle == tag) {
-          print("データも問題もあるよ");
-          isSearched = true;
-          final int questionId = id;
-          final int answeredTimes = data['answeredTimes'];
-          final int correctTimes = data['correctTimes'];
-          final int wrongTimes = data['wrongTimes'];
-          final int continuousCorrectTimes = data['continuousCorrectTimes'];
-          final int latestCorrect = data['latestCorrect'];
-          this.questionData = QuestionDataList(
-              pastTitle,
-              questionId,
-              answeredTimes,
-              correctTimes,
-              wrongTimes,
-              continuousCorrectTimes,
-              latestCorrect);
-        }
-      });
-      //問題のデータがなかった時
-      if (isSearched == false) {
-        print("データはあるけど、問題はないよ");
-        final int pastTitle = tag;
-        final int questionId = id;
-        final int answeredTimes = 0;
-        final int correctTimes = 0;
-        final int wrongTimes = 0;
-        final int continuousCorrectTimes = 0;
-        final int latestCorrect = 0;
-        this.questionData = QuestionDataList(
-            pastTitle,
-            questionId,
-            answeredTimes,
-            correctTimes,
-            wrongTimes,
-            continuousCorrectTimes,
-            latestCorrect);
-      }
+      isSearched = true;
+      final int pastTitle = listTemp[0]['pastTitle'];
+      final int questionId = id;
+      final int answeredTimes = listTemp[0]['answeredTimes'];
+      final int correctTimes = listTemp[0]['correctTimes'];
+      final int wrongTimes = listTemp[0]['wrongTimes'];
+      final int continuousCorrectTimes = listTemp[0]['continuousCorrectTimes'];
+      final int latestCorrect = listTemp[0]['latestCorrect'];
+      this.questionData = QuestionDataList(pastTitle, questionId, answeredTimes,
+          correctTimes, wrongTimes, continuousCorrectTimes, latestCorrect);
     }
   }
 
@@ -250,21 +221,36 @@ class QuestionController extends ChangeNotifier {
 
     int answeredTimes = questionData!.answeredTimes + 1;
     int correctTimes = questionData!.correctTimes + 1;
+    int continuousCorrectTimes = questionData!.continuousCorrectTimes + 1;
     Map<String, dynamic> record = {
-      'pastTitle': question.tag,
-      'questionId': question.id,
+      'pastTitle': question.tag.toInt(),
+      'questionId': question.id.toInt(),
       'answeredTimes': answeredTimes,
       'correctTimes': correctTimes,
-      'wrongTimes': questionData!.wrongTimes,
-      'continuousCorrectTimes': questionData!.continuousCorrectTimes++,
+      'wrongTimes': questionData!.wrongTimes.toInt(),
+      'continuousCorrectTimes': continuousCorrectTimes,
       'latestCorrect': 1,
     };
 
     print(record);
-    await db.update(
-      tableName,
-      record,
-    );
+
+    //データがある場合はupdate
+    if (isSearched) {
+      await db.update(
+        tableName,
+        record,
+        where: 'questionId=?',
+        whereArgs: [question.id],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      //ない場合はinsert
+    } else {
+      await db.insert(
+        tableName,
+        record,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
 
   //書き込み
@@ -284,20 +270,32 @@ class QuestionController extends ChangeNotifier {
     int answeredTimes = questionData!.answeredTimes + 1;
     int wrongTimes = questionData!.wrongTimes + 1;
     Map<String, dynamic> record = {
-      'pastTitle': question.tag,
-      'questionId': question.id,
+      'pastTitle': question.tag.toInt(),
+      'questionId': question.id.toInt(),
       'answeredTimes': answeredTimes,
-      'correctTimes': questionData!.correctTimes,
+      'correctTimes': questionData!.correctTimes.toInt(),
       'wrongTimes': wrongTimes,
       'continuousCorrectTimes': 0,
       'latestCorrect': 0,
     };
 
     print(record);
-    await db.update(
-      tableName,
-      record,
-    );
+    if (isSearched) {
+      await db.update(
+        tableName,
+        record,
+        where: 'questionId=?',
+        whereArgs: [question.id],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      //ない場合はinsert
+    } else {
+      await db.insert(
+        tableName,
+        record,
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
 
   void fetchQuestionList() async {

@@ -25,16 +25,15 @@ class ReviewModel extends ChangeNotifier {
       List<Map<String, dynamic>>? listTemp = await db.query('QuestionData',
           where: 'pastTitle=?', whereArgs: [pastPaperTitleList[i].tag]);
       List<QuestionDataList> questionDataList = [];
-      int j = 0;
       if (listTemp.length > 0) {
-        listTemp.forEach((map) {
-          final int pastTitle = map[j]['pastTitle'];
-          final int questionId = map[j]['questionId'];
-          final int answeredTimes = map[j]['answeredTimes'];
-          final int correctTimes = map[j]['correctTimes'];
-          final int wrongTimes = map[j]['wrongTimes'];
-          final int continuousCorrectTimes = map[j]['continuousCorrectTimes'];
-          final int latestCorrect = map[j]['latestCorrect'];
+        listTemp.map((data) {
+          final int? pastTitle = data['pastTitle'];
+          final int questionId = data['questionId'];
+          final int answeredTimes = data['answeredTimes'];
+          final int correctTimes = data['correctTimes'];
+          final int wrongTimes = data['wrongTimes'];
+          final int continuousCorrectTimes = data['continuousCorrectTimes'];
+          final int latestCorrect = data['latestCorrect'];
           questionDataList.add(QuestionDataList(
             pastTitle,
             questionId,
@@ -44,7 +43,6 @@ class ReviewModel extends ChangeNotifier {
             continuousCorrectTimes,
             latestCorrect,
           ));
-          j++;
         });
       }
       this.questionDataListAll!.add(questionDataList);
