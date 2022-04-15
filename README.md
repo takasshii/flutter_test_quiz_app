@@ -1,17 +1,115 @@
-# flutter_test_takashii
 
-クイズアプリ（制作中）
+# Quiz App for Midwife National Exam
+ 
+"Quiz App for Midwife National Exam" is a quiz app for students who want to be a midwife.
 
-## Getting Started
+# DEMO
+ 
+You can learn how to use this app.
 
-This project is a starting point for a Flutter application.
+//Update　Soon!!!
+![]()
+ 
+# Features
+ 
+### Studying past exam. (100 to 104 times)
+```
+*　Recording time to anser questions.
+*　Reviewing wrong questions.
+*　Pie Chart to check learning progress.
+```
 
-A few resources to get you started if this is your first Flutter project:
+### Recording record of learning data.
+```
+*　Daily and overall Ranking, .
+*　Teaching how many days until the national exam.
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Setting
+```
+*　Changing information such as name and grade.
+*　News from developer
+*　Data transfer(Goole, maillink)
+*　Contact developer(twitter, GoogleForm)
+```
+ 
+# Requirement
+ 
+- OS
+* iOS 10.4 ??
+* Android ??
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# flutter_test_takasshii
+- Flutter 
+
+- Package
+```
+  #icon
+  cupertino_icons: ^1.0.2
+  #svg
+  websafe_svg: ^2.1.0
+
+  #State Management
+  provider: ^6.0.2
+
+  #firebase
+  firebase_analytics: ^9.1.0
+  firebase_core: ^1.12.0
+  firebase_auth: ^3.3.7
+  cloud_firestore: ^3.1.8
+
+  #Speech bubble
+  bubble: ^1.2.1
+
+  #chart
+  fl_chart: ^0.45.0
+
+  #local db
+  sqflite: ^2.0.2
+
+  #web page
+  url_launcher: ^6.0.20
+
+  shared_preferences: ^2.0.13
+
+  #tutorial
+  introduction_screen: ^3.0.2
+
+  #ad
+  google_mobile_ads: ^1.2.0
+
+  #google login
+  google_sign_in: ^5.2.4
+
+  #button for sign in 
+  flutter_signin_button: ^2.0.0
+
+  #dynamic link
+  firebase_dynamic_links: ^4.1.2
+
+  #icon
+  font_awesome_flutter: ^9.0.0
+```
+ 
+ 
+# Installation
+ 
+# Usage
+
+ 
+# Note
+ 
+
+ 
+# Author
+ 
+* Asano Takashi
+* Kobe Univ
+* Twitter : https://twitter.com/takashiho_2
+ 
+# License
+ [Terms of Use](https://nostalgic-catmint-d3c.notion.site/716f1cb47a35414e81d18acd06ab44ec)
+
+ 
+Enjoy making cute physics simulations!
+ 
+Thank you!
