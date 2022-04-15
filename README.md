@@ -56,7 +56,7 @@ You can learn how to use this app.
 * Twitter : https://twitter.com/takashiho_2
  
 # License
- [Terms of Use]('https://nostalgic-catmint-d3c.notion.site/716f1cb47a35414e81d18acd06ab44ec')
+ [Terms of Use](https://nostalgic-catmint-d3c.notion.site/716f1cb47a35414e81d18acd06ab44ec)
 
  
 Enjoy making cute physics simulations!
