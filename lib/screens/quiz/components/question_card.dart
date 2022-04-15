@@ -60,7 +60,7 @@ class QuestionCard extends StatelessWidget {
                   bool isCompleted = model.isCompleted(question, index);
                   if (isCompleted) {
                     ProgressControllerState.stop();
-                    if (questionIndex != questionLength) {
+                    if (questionIndex != questionLength - 1) {
                       await pageScrollModel(model);
                       model.initQuestion(question);
                       await model.fetchQuestionDataList(
