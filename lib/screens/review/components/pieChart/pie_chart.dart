@@ -7,6 +7,7 @@ import '../../../../data/past_paper_100.dart';
 import '../../../../domain/question_data_list.dart';
 import '../../model/review_model.dart';
 import '../review_question_count.dart';
+import '../reviewtwo_middle_button.dart';
 import 'indicator.dart';
 
 class PieChartSample2 extends StatefulWidget {
@@ -147,6 +148,8 @@ class _PieChart2State extends State<PieChartSample2> {
                   ),
                 ],
               ),
+              ReviewTwoMiddleButton(
+                  questionDataList: questionDataListAll[widget.index]),
             ],
           ),
         );

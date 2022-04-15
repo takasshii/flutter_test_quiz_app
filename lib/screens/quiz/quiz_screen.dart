@@ -4,17 +4,24 @@ import 'package:flutter_test_takashii/controllers/quesiton_controller.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/past_problem.dart';
+import '../../domain/question_data_list.dart';
 import 'components/progress_bar.dart';
 import 'components/question_card.dart';
 
 class QuizScreen extends StatelessWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+  const QuizScreen(
+      {Key? key, required this.questionDataList, required this.learningType})
+      : super(key: key);
+
+  final List<QuestionDataList> questionDataList;
+  final int learningType;
 
   @override
   Widget build(BuildContext context) {
     final PageController pageController = PageController();
     return ChangeNotifierProvider<QuestionController>(
-      create: (_) => QuestionController()..fetchQuestionList(),
+      create: (_) => QuestionController()
+        ..fetchQuestionList(questionDataList, learningType),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -61,6 +68,8 @@ class QuizScreen extends StatelessWidget {
             final List<PastProblem>? questions = model.questions;
             if (questions == null) {
               return Center(child: CircularProgressIndicator());
+            } else if (questions.length == 0) {
+              return Center(child: Text("復習が完了したよ！"));
             }
             return SafeArea(
               child: Column(
@@ -79,7 +88,7 @@ class QuizScreen extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: "/${model.questions?.length}",
+                            text: "/${model.questions!.length}",
                             style: TextStyle(
                               color: kSecondaryColor,
                               fontSize: 16,

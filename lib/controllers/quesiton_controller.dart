@@ -158,6 +158,7 @@ class QuestionController extends ChangeNotifier {
 
   //問題データの取得
   QuestionDataList? questionData;
+
   //見つかったかどうかを検知
   bool isSearched = false;
 
@@ -176,12 +177,9 @@ class QuestionController extends ChangeNotifier {
     List<Map<String, dynamic>>? listTemp =
         await db.query('QuestionData', where: 'questionId=?', whereArgs: [id]);
 
-    print(listTemp);
-
     //何も格納されていないとき
     if (listTemp.length == 0) {
       isSearched = false;
-      print("何もないよ");
       final int pastTitle = tag;
       final int questionId = id;
       final int answeredTimes = 0;
@@ -232,8 +230,6 @@ class QuestionController extends ChangeNotifier {
       'latestCorrect': 1,
     };
 
-    print(record);
-
     //データがある場合はupdate
     if (isSearched) {
       await db.update(
@@ -279,7 +275,6 @@ class QuestionController extends ChangeNotifier {
       'latestCorrect': 0,
     };
 
-    print(record);
     if (isSearched) {
       await db.update(
         tableName,
@@ -298,13 +293,30 @@ class QuestionController extends ChangeNotifier {
     }
   }
 
-  void fetchQuestionList() async {
+  void fetchQuestionList(
+      List<QuestionDataList> questionDataList, int learningType) async {
     numberCorrectAns = 0;
     resetStopWatch();
     s.start();
-    List<PastProblem> _questions = await pastPaper100
-        .map(
-          (question) => PastProblem(
+    //間違えたリストの抽出
+    List<int> wrongIdList = [];
+    List<int> correctIdList = [];
+
+    questionDataList.forEach((data) {
+      if (data.latestCorrect == 0) {
+        wrongIdList.add(data.questionId);
+      } else if (data.latestCorrect == 1) {
+        correctIdList.add(data.questionId);
+      }
+    });
+    //ランダムを選択した場合
+    if (learningType == 0) {
+      //問題リスト 正解してないものを抽出する
+      List<PastProblem>? _questions = [];
+      pastPaper100.map((question) {
+        int id = question['id'];
+        if (!correctIdList.contains(id)) {
+          _questions!.add(PastProblem(
             id: question['id'],
             tag: question['tag'],
             question: question['question'],
@@ -312,13 +324,72 @@ class QuestionController extends ChangeNotifier {
             answerIndex: question['answer_index'],
             score: question['score'],
             image: question['image'],
-          ),
-        )
-        .toList();
-    this.questions = _questions;
-    //初回の問題を設定
-    initQuestion(questions![0]);
-    await fetchQuestionDataList(questions![0].tag, questions![0].id);
+          ));
+        }
+      }).toList();
+      //シャッフル
+      _questions.shuffle();
+      //n問切り出す
+      int finalIndex = _questions.length < 5 ? _questions.length : 5;
+      _questions = _questions.sublist(0, finalIndex);
+      this.questions = _questions;
+      //何も取得できない場合
+      if (_questions.length == 0) {
+        List<PastProblem> _questions = await pastPaper100
+            .map(
+              (question) => PastProblem(
+                id: question['id'],
+                tag: question['tag'],
+                question: question['question'],
+                options: question['options'],
+                answerIndex: question['answer_index'],
+                score: question['score'],
+                image: question['image'],
+              ),
+            )
+            .toList();
+        //シャッフル
+        _questions.shuffle();
+        //n問切り出す
+        int finalIndex = _questions.length < 5 ? _questions.length : 5;
+        _questions = _questions.sublist(0, finalIndex);
+        this.questions = _questions;
+      }
+    }
+    //復習を選択したとき
+    else if (learningType == 1) {
+      //問題リスト 間違ってるものを抽出
+      List<PastProblem>? _questions = [];
+      pastPaper100.map((question) {
+        int id = question['id'];
+        if (wrongIdList.contains(id)) {
+          _questions!.add(PastProblem(
+            id: question['id'],
+            tag: question['tag'],
+            question: question['question'],
+            options: question['options'],
+            answerIndex: question['answer_index'],
+            score: question['score'],
+            image: question['image'],
+          ));
+        }
+      }).toList();
+      //シャッフル
+      _questions.shuffle();
+      //n問切り出す
+      int finalIndex = _questions.length < 5 ? _questions.length : 5;
+      _questions = _questions.sublist(0, finalIndex);
+      this.questions = _questions;
+      //何も取得できない場合
+      if (_questions.length == 0) {
+        this.questions = _questions;
+      }
+    }
+    if (questions!.length != 0) {
+      //初回の問題を設定
+      initQuestion(questions![0]);
+      await fetchQuestionDataList(questions![0].tag, questions![0].id);
+    }
     notifyListeners();
   }
 
